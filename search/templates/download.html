@@ -1,0 +1,145 @@
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'search/jquery.js' %}" ></script>
+
+
+<style>
+  th {
+  border: 1px solid #aed0ea;
+  background: #d7ebf9;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  color: #2779aa;
+  padding: 5px 10px;
+  }
+  .dataTables_length {
+  margin: 5px 0px;
+  }
+  .dataTables_filter {
+  margin: 5px 0px;
+  }
+  .browser_td {
+  text-align: center;
+    padding-top: 2px;
+  padding-bottom: 2px;
+  }
+  button {
+	background: linear-gradient(to bottom, white 0%, gainsboro 100%);
+	border: 1px solid #cacaca;
+	padding: 3px;
+	margin-left: 5px;
+	cursor: pointer;
+ 	font-size: 13px;
+  }
+  .table_attr {
+	display: inline;
+	margin-bottom: 10px;
+  }
+  select {
+	width: 100px;
+  }
+  .td1 {
+	width: 20%;
+  }
+  .td2 {
+	width: 20%;
+   }
+  .td3 {
+	width: 50%;
+  }
+  .td4 {
+	width: 10%;
+  }
+</style>
+
+
+<div class="table_attr" style="margin-right: 39%;">
+        <label>Show
+                <select id="page_length"  name="browse_table_length" aria-controls="browse_table" class="">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                </select> Entries
+        </label>
+</div>
+
+<div id="paginate" class="table_attr">
+        <button id="previous" onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val());if(p != 1){p = p-1;a=$.ajax({url:'/EMTRegulome/browser/Gene/'+'{{ file_name }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#table_container').html(a.responseText)}})}">Previous</button>
+        <button id="Next" onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val())+1;a=$.ajax({url:'/EMTRegulome/browser/Gene/'+'{{ file_name }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#table_container').html(a.responseText)}})" style="margin-right:5px;">Next</button>
+        Page<input id="gotopage" style="width: 5%;"><p style="display: inline;"></p></input>
+        <button id="goto" onclick="p = $('#gotopage').val();if(0<p&&p<=Math.ceil({{ genelength }}/$('#page_length').val())){a=$.ajax({url: '/EMTRegulome/browser/Gene/'+'{{ file_name }}'+'/'+p+'/'+$('#page_length').val(),success:function(){$('#table_container').html(a.responseText)}})}">>></button>
+</div>
+
+<div id="table_container" style="width: 100%;">
+<table id="gene_info_table" style="width: 100%;border-collapse: collapse;margin-bottom: 5px;">
+  <thead>
+    <th>
+      Gene Entrez ID
+    </th>
+    <th>
+      Gene Symbol
+    </th>
+    <th>
+      Description
+    </th>
+    <th>
+      detail
+    </th>
+  </thead>
+  <tbody>
+    {% for gene in gene_info %}
+    <tr>
+      <td class="browser_td td1">{{ gene.gene_id }}</td>
+      <td class="browser_td td2">{{ gene.gene_symbol }}</td>
+      <td class="browser_td td3">{{ gene.gene_description }}</td>
+      <td class="browser_td td4"><a href="https://www.ncbi.nlm.nih.gov/gene/?term={{ gene.gene_id }}">Genbank</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="dataTables_info" id="browse_table_info" role="status" aria-live="polite">
+                Showing 1 to 10 of {{ genelength }} Entries
+        </div>
+</div>
+<br/>
+<script>
+	$("#gene_info_table tr:even").css("background-color","#ffffff");
+	$("#gene_info_table tr:odd").css("background-color","#efefef");
+	$("#gene_info_table tr:last").css("border-bottom","1px solid black");
+ $("#gotopage").next().html("of "+Math.ceil({{ genelength }}/$('#page_length').val()))
+
+  $("#page_length").change(function(){
+                var xmlhttp;
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                                $("#table_container")[0].innerHTML=xmlhttp.responseText;
+                                $("#gotopage").next().html("of "+Math.ceil({{ genelength }}/$('#page_length').val()))
+				$("#gene_info_table tr:even").css("background-color","#ffffff");
+				$("#gene_info_table tr:odd").css("background-color","#efefef");
+				$("#gene_info_table tr:last").css("border-bottom","1px solid black");
+
+                        }
+                }
+                xmlhttp.open("GET","/EMTRegulome/browser/Gene/"+"{{ file_name }}"+"/"+{{ start }}+"/"+$(this).val()+"/",true);
+                xmlhttp.send();
+})
+                document.onkeydown = function(event_e){
+                if(window.event)
+                        event_e = window.event;
+                var int_keycode = event_e.charCode||event_e.keyCode;
+                if(int_keycode ==13){
+                        $('#goto').click();
+                }
+        }
+
+</script>

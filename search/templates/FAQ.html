@@ -1,0 +1,1122 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <link rel="icon" href="/static/CGIdb2/static/image/logo.ico" type="image/x-icon">
+  <title>
+    FAQ
+  </title>
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/left-side-menu.js"></script>
+        <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+
+    {% load staticfiles %}
+
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .tool_icon{
+       width: 1.4em; height: 1.4em;
+       fill: currentColor;
+       overflow: hidden;
+        display:inline-block;
+        text-align: center;
+        vertical-align: middle;
+    }
+.home-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.main-body-1 {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top:10px;
+    margin-bottom:10px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+    flex-wrap: wrap;
+}
+
+
+.main-body-min {
+    float:left;
+    width:calc(100% - 60px)
+}
+.main-body-max {
+    float:left;
+    width:calc(100% - 240px)
+}
+
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.home_title {
+    float:left;
+    width:100%;
+    height:40px;
+    font-size:28px;
+    font-weight:500;
+    color:rgba(0,0,0,.65);
+    margin-left: 15px;
+}
+    </style>
+</head>
+<body style="min-width:1500px;color: #000000;    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.5;    background-color: #E2E2E2;">
+
+
+
+
+<div class="left-side-menu" style="position:fixed;float:left;height:calc(100%);z-index:999">
+    <div class="lsm-expand-btn">
+        <div class="lsm-mini-btn">
+            <label style="display: block;">
+                <input type="checkbox" checked="checked">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="30" />
+                    <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                    <path class="line--2" d="M0 50h80" />
+                    <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                </svg>
+
+            </label>
+
+
+<!--        <input type="text"/>-->
+        </div>
+
+    </div>
+
+
+
+    <div class="lsm-container">
+        <div class="lsm-scroll" >
+            <div class="lsm-sidebar">
+                <ul>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/"><i class="my-icon lsm-sidebar-icon icon-zhuye"></i><span>HOME</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 1.5%">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/search"><i class="my-icon lsm-sidebar-icon icon-chaxun"></i><span>SEARCH</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-tongji"></i><span>DOWNLOAD</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                            <li><a href="/CGIdb2/statistic_gene"><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;margin-left: -4px;"></i><span>Tissue</span></a></li>
+                            <li><a href="/CGIdb2/statistic_source"><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;"></i><span>Source</span></a></li>
+                            <li><a href="/CGIdb2/statistic_drug"><i class="my-icon lsm-sidebar-icon icon-jiaonang"></i><span>Drug</span></a></li>
+                            <li><a href="/CGIdb2/statistic_com_path"><i class="my-icon lsm-sidebar-icon icon-icon_pathwayx-copy"></i><span>Complex/Pathway</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-wenhao"></i><span>FAQ</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/contact"><i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i><span>CONTACT US</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div  class="main-body" style="padding-left:20px;float:left;margin-left:240px;width:calc(100% - 260px);height:100%;">
+
+    <div class="home-top">
+        <div class="home_title" style="float:left">
+    <div style="float:left;width:37px;height:42.5px">
+    <img src="/static/CGIdb2/static/image/logo.gif" style="width:100%; height:100%;">
+    </div>
+    <div style="float:left;padding-left:12px;line-height: 1.3">
+    <p><span style="color:#5687bd; font-size:35px">C</span>ancer
+        <span style="color:#5687bd; font-size:35px">G</span>enetic
+        <span style="color:#5687bd; font-size:35px">I</span>nteraction
+        <span style="color:#5687bd; font-size:35px">d</span>ata<span style="color:#5687bd; font-size:35px">b</span>ase
+        <span style="font-size:20px">2.0</span>
+    </p>
+    </div>
+</div>
+    </div>
+
+<div  class="main-body-1" style="padding:24px">
+<div style="padding-left:10px">
+
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is CGIdb2.0?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">CGIdb2.0 is an updated database that provides comprehensive published genetic interactions (GI) in cancer genome, including synthetic lethality (SL) and synthetic viability (SV). CGIdb 2.0 will serve as an important resource for investigating the road map from genotype to phenotype, which plays important roles in understanding the cancer mechanism and predicting drug response biomarkers. </div>
+
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What data types are included in the CGIdb2.0?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>CGIdb2.0 records the genetic interactions in cancer genome, including synthetic lethality and synthetic viability, in over 20 cancer tissues. In addition, CGIdb2.0 also has the information of chemical-genetic interaction, complex and biological pathway components related with genetic interactions, correlation analysis derived from TCGA and drug response prediction.</p>
+    </div>
+
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How do I cite the CGIdb2.0?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Please cite the following portal papers:</p>
+        <ul>
+            <li style="list-style:disc; margin-left: 25px;">
+                CGIdb v2.0: updated database of genetic interaction in cancer genome.
+            </li>
+        </ul>
+        <p>Remember to also cite the source of the data if you are using a publicly available dataset.</p>
+    </div>
+
+
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What are the features of the CGIdb 2.0?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>The major features of CGIdb 2.0 are listed on the left menu. You can click the different options to get the aim page.</p>
+        <img src="/static/CGIdb2/static/image/home_left_menu.gif" style="margin-bottom: 30px;margin-top:30px;width:15%; margin-left:25%;">
+<p style="font-size:17px; padding-top: 10px;font-weight: 500;">
+    <span><i class="my-icon lsm-sidebar-icon icon-zhuye"></i></span>
+    HOME</p>
+        <p>
+            The home page contains the basic introduction of the CGIdb 2.0, and has a ‘statistical Humanoid chart’ for quick viewing.
+        </p>
+        <p>
+            The external links of the public databases used in CGIdb 2.0 are listed on the bottom.
+        </p>
+
+
+<p style="font-size:17px; padding-top: 10px;font-weight: 500;">                    <span>
+<i class="my-icon lsm-sidebar-icon icon-chaxun"></i>
+                    </span>SEARCH</p>
+        <p>
+            You can search and browse your interesting genes and genetic interactions in the search page.
+        </p>
+
+<p style="font-size:17px; padding-top: 10px;font-weight: 500;">                    <span>
+<i class="my-icon lsm-sidebar-icon icon-tongji"></i>
+                    </span>DOWNLOAD</p>
+        <p>
+            DOWNLOAD page includes four categories:
+            <span><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;"></i></span>Tissue,
+            <span><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;margin-right:4px;"></i></span>Source,
+            <span><i class="my-icon lsm-sidebar-icon icon-jiaonang" style="margin-right:4px;"></i></span>Drug and
+            <span><i class="my-icon lsm-sidebar-icon icon-icon_pathwayx-copy" style="margin-right:4px;"></i></span>Complex/Pathway.
+        </p>
+        <p>
+            You can get the number of genetic interactions related to these four categories.
+        </p>
+
+<p style="font-size:17px; padding-top: 10px;font-weight: 500;">                    <span>
+<i class="my-icon lsm-sidebar-icon icon-wenhao"></i>
+                    </span>FAQ</p>
+        <p>
+            The FAQ page gives a hand to you for using the CGIdb 2.0.
+        </p>
+
+<p style="font-size:17px; padding-top: 10px;font-weight: 500;">                    <span>
+<i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i>
+                    </span>CONTACT US</p>
+        <p>
+            You can contact us by send E-mail to guyunyan@ems.hrbmu.edu.cn.
+        </p>
+    </div>
+
+
+
+
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How do I use CGIdb2.0 to get the information I want?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>On the Search page, you can start your searching behavior (A). CGIdb2.0 allows you to search SL/SV genetic interactions based on gene entrez id and gene symbol (B).</p>
+        <p>Meanwhile, you can browse your interesting genetic interactions information based on GI types or tissue types(C).</p>
+        <img src="/static/CGIdb2/static/image/search.gif" style="margin-bottom: 30px;margin-top:30px;width:50%; margin-left:25%;">
+    </div>
+    <div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What are the features of the searching result interface?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>The result interface is mainly divided into two parts:</p>
+        <ul>
+            <li style="list-style:disc; margin-left: 25px;">
+                Function panel (A)
+            </li>
+            <li style="list-style:disc; margin-left: 25px;">
+                Display platform (B)
+            </li>
+        </ul>
+        <img src="/static/CGIdb2/static/image/result_box.gif" style="margin-bottom: 30px;margin-top:30px;width:50%; margin-left:25%;">
+        <p>The function panel provides following functional buttons.</p>
+        <img src="/static/CGIdb2/static/image/functional_panel.gif" style="margin-bottom: 30px;margin-top:30px;width:50%; margin-left:25%;">
+    </div>
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-shiliangzhinengduixiang_fuzhi"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-shiliangzhinengduixiang_fuzhi"></use>
+                </svg>
+            </span>
+            to link the result functional panel. The basic information of your searching gene will be listed on the table as following.
+        </p>
+        <img src="/static/CGIdb2/static/image/basic_gene_info.gif" style="margin-bottom: 30px;margin-top:30px;width:60%; margin-left:20%;">
+    </div>
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-node"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-node"></use>
+                </svg>
+            </span>
+            to link the result functional panel. The SL/SV interaction network will be listed on the left. And you can hide it by pressing
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-node"></use>
+                </svg>
+            </span>
+            one more time.
+        </p>
+        <img src="/static/CGIdb2/static/image/network_node_list_anno.gif" style="margin-bottom: 30px;margin-top:30px;width:60%; margin-left:20%;">
+        <p>You can select your interested cancer type in the node list. The information will be displayed as shown following.</p>
+<p>The top panel (A) shows the gene alteration distribution of samples in TCGA cohorts. The colors represent alteration types: green—mutation, red—amplification, blue—deletion.</p>
+<p>The bottom panel (B) show the statistic test results of co-alteration, co-expression and co-methylation between two genes with SL or SV interaction.
+
+        </p>
+        <img src="/static/CGIdb2/static/image/TCGA_info_index.gif" style="margin-bottom: 30px;margin-top:30px;width:60%; margin-left:20%;">
+
+    </div>
+
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-detail"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-detail"></use>
+                </svg>
+            </span>
+             to link the result functional panel. You can get the detail information for each pair of genetic interaction, including gene symbol, tissue type, confidence score, source and drug effect. The ‘Confidence Score’ demonstrates the reliability of genetic interaction, and ‘source’ shows where the genetic interaction came from. </p>
+<p>Press
+                <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-eye"></use>
+                </svg>
+            </span>
+   to get the boxplot of drug response test.</p>
+
+        </p>
+        <img src="/static/CGIdb2/static/image/detail_anno.gif" style="margin-bottom: 30px;margin-top:30px;width:60%; margin-left:20%;">
+    </div>
+
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-xi_fenlei_shengwuhuaxue"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-xi_fenlei_shengwuhuaxue"></use>
+                </svg>
+            </span>
+            to link the result functional panel. The interactions between your searching gene and the chemical compounds will be listed on the table as following. The ‘score’ shows the intensity of the effect.
+        </p>
+        <img src="/static/CGIdb2/static/image/chemical_list.gif" style="margin-bottom: 30px;margin-top:30px;width:80%; margin-left:10%;">
+    </div>
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-danbaizhi-"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-danbaizhi-"></use>
+                </svg>
+            </span>
+in result functional panel. The interactions between your searching gene and the others will be listed on the table as following. And the relationship type (‘Within’ or ‘Between’) between the two complexes which the gene pair belongs to is also list on the table.
+        </p>
+        <img src="/static/CGIdb2/static/image/complex_list.gif" style="margin-bottom: 30px;margin-top:30px;width:80%; margin-left:10%;">
+    </div>
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-icon_pathwayx"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-icon_pathwayx"></use>
+                </svg>
+            </span>
+in result functional panel. The interactions between your searching gene and the others will be listed on the table as following. And the relationship type (‘Within’ or ‘Between’) between the two pathways which the gene pair belongs to is also list on the table.
+            </p>
+            <img src="/static/CGIdb2/static/image/pathway_list.gif" style="margin-bottom: 30px;margin-top:30px;width:80%; margin-left:10%;">
+    </div>
+
+
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-jiahao"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-jiahao"></use>
+                </svg>
+            </span>
+and the network will be pop-up. You can add your own nodes to the original network diagram, and you can name it and select the interaction types (‘SL’, ‘SV’ or ‘No Types’).
+            </p>
+            <img src="/static/CGIdb2/static/image/node_add.gif" style="margin-bottom: 30px;margin-top:30px;width:70%; margin-left:15%;">
+    </div>
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-edge"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-edge"></use>
+                </svg>
+            </span>
+and you can click the left mouse button, and drag from one node to another node to add an edge between them.
+            </p>
+            <img src="/static/CGIdb2/static/image/add_edge.gif" style="margin-bottom: 30px;margin-top:30px;width:50%; margin-left:25%;">
+    </div>
+
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-baocun"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-baocun"></use>
+                </svg>
+            </span>
+and you can save the network on the bottom canvas as .PNG file.
+            </p>
+            <img src="/static/CGIdb2/static/image/save_network.gif" style="margin-bottom: 30px;margin-top:30px;width:80%; margin-left:10%;">
+    </div>
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What is the button
+                    <span>
+                        <svg class="tool_icon" aria-hidden="true">
+                            <use xlink:href="#icon-hot"></use>
+                        </svg>
+                    </span>
+                for?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-hot"></use>
+                </svg>
+            </span>
+and you can view the words cloud, where the size of the gene symbol corresponds to the frequency of the gene appears.
+            </p>
+            <img src="/static/CGIdb2/static/image/hot_word_anno.gif" style="margin-bottom: 30px;margin-top:30px;width:70%; margin-left:15%;">
+    </div>
+
+
+
+
+<!--
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How can I get basic information about the gene I’m interested in?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-shiliangzhinengduixiang_fuzhi"></use>
+                </svg>
+            </span>
+            in result functional panel. The information will be listed on the table as following.
+        </p>
+        <img src="/static/CGIdb2/static/image/gene_info.png" style="    margin-bottom: 20px;width:50%; margin-left:25%;">
+    </div>
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How can I get the TCGA data analysis detail about the genetic interaction I’m interested in?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>Select your interest cancer type in node list. The information will display in the form of the board.
+        </p>
+        <img src="/static/CGIdb2/static/image/TCGA_info.png" style="    margin-bottom: 20px;width:50%; margin-left:25%;">
+    </div>
+
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How can I get drug effect information about the genetic interaction?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>(1) Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-detail"></use>
+                </svg>
+            </span>
+            in result functional panel.
+        </p>
+        <p>(2) Press
+            <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-eye"></use>
+                </svg>
+            </span>
+            in detail tables.
+        </p>
+        <p>You can get drug effect information which is displayed in the form of the boxplot.</p>
+        <img src="/static/CGIdb2/static/image/drug_effect.png" style="    margin-bottom: 20px;width:50%; margin-left:25%;">
+    </div>-->
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How should I interpret the score?</p></div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>The SV and SL interactions in CGI2.0 were obtained from different types of sources, including biochemical assays, text mining results. In addition, biochemical assays were based on different experimental technologies and platforms, such as shRNA, CRISPR and drug inhibition. Because multiple types of evidence are conducive to the identification of SV (SL) interactions, an integrative confidence score combining scores from these evidence sources can provide an overall estimation of the reliability of SV (SL) interaction. In principle, we supposed that (i) the contribution of experimental evidence to the confidence score is more significant than the text mining and that (ii) the SV (SL) interactions supported by more evidence sources should be beneficial to the confidence score. The scoring procedures were divided into two steps, i.e., quantification and integration. A large number of SV (SL) interactions collected from other studies had only qualitative annotation evidence (such as “high-throughput” or “low-throughput”), or technological descriptions of wet-lab experiments (such as “CRISPR screening” or “shRNA screening”). Thus, it was necessary to assign quantitative scores to the SV (SL) interactions before the calculation of integrative scores. Similar to the scoring scheme from SLDB (http://histone.sce.ntu.edu.sg/SynLethDB/), the quantitative scores were assigned based on the experimental methods as shown in the following Table 1. For instance, “Mutant & Mutant” indicated that two genes in SV (SL) interactions were disturbed by transgenic or genetic deletions. Moreover, “RNA interference & Mutant” indicated that one gene was perturbed by RNAi and that the other was perturbed via mutation. In summary, the SV (SL) interactions obtained from low-throughput experiments were considered to be more reliable than the results from high-throughput experiments due to the lower false positive rate. And, a higher confidence score was assigned to low-throughput evidence than high-throughput evidence. Compared to other RNA interference experiments (such as shRNA, siRNA and dsRNA), the CRISPR/Cas9 screen had lower off-target effects, which were assigned higher confidence scores similar to mutation and transfection experiments.</p>
+        <p>The formula to combine the individual scores as follows：</p>
+        <img src="/static/CGIdb2/static/image/math.gif" style="margin-bottom: 30px;margin-top:30px;width:20%; margin-left:35%;">
+        <p>where S represents the integrative score corresponding to the experimental evidence; Pi is the individual score; and n is the total number of experimental supporting evidence</p>
+        <table class="table table-hover table-striped" style="width:60%;margin-left:20%">
+		      <thead>
+			<tr><th>
+			  Method
+			</th>
+			<th>
+			  Score
+			</th>
+		      </tr></thead>
+		      <tbody>
+
+			<tr>
+			  <td>
+			   Mutant &amp; Mutant
+			  </td>
+			  <td>
+			   0.9
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   CRISPR
+			  </td>
+			  <td>
+			   0.9
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   Low-throughput
+			  </td>
+			  <td>
+			   0.8
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   RNA interference &amp; Mutant
+			  </td>
+			  <td>
+			   0.75
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   Bi-specifie RNA interference
+			  </td>
+			  <td>
+			   0.5
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   RNA interference &amp; Drug inhibition
+			  </td>
+			  <td>
+			   0.5
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			   High-throughput
+			  </td>
+			  <td>
+			   0.5
+			  </td>
+			</tr>
+		      </tbody>
+		    </table>
+    </div>
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">How do I interpret the DOWNLOAD page?</p>
+</div>
+    <div style="float:left; width:100%;text-align:justify;">
+        <p>At the top of the page is a summary of the data cohort.</p>
+        <p>The details of the cohort is showed by table (left) and pie chart (right).</p>
+        <p>And you can press
+                        <span>
+                <svg class="tool_icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiazai"></use>
+                </svg>
+            </span>
+            to download all datasets which CGIdb 2.0 contains (A).</p>
+            <img src="/static/CGIdb2/static/image/statistic.gif" style="margin-bottom: 20px;margin-top:30px;width:70%; margin-left:15%;">
+    </div>
+
+<div style="float:left; width:60%;"><p style="font-size:23px; padding-top: 16px;font-weight: 500;">What literature is cited in CGIdb 2.0?</p>
+</div>
+    <div style="float:left; width:80%;margin-left: 10%;text-align:justify;">
+		    <table class="table table-hover table-striped" style="font-size: 14px;text-align: left;">
+		      <thead>
+			<th>
+			  Study and Reference
+			</th>
+			<th>
+			  Data of Publication
+			</th>
+			<th>
+			  Total Number
+			</th>
+			<th>
+			  Method
+			</th>
+		      </thead>
+		      <tbody>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/26516187" target="_blank">SynlethDB: synthetic lethality database toward discovery of selective and sensitive anticancer drug targets. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nuclie Acids Res, 2016-1
+			  </td>
+			  <td>
+			    19952
+			  </td>
+			  <td>
+			    DAISY/DECIPHER/Text Mining/RNAi/Synlethality
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/27438146" target="_blank">Ranking novel cancer driving synthetic lethal gene pairs using TCGA data. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Oncotarget, 2016-8
+			  </td>
+			  <td>
+			    128
+			  </td>
+			  <td>
+			    Mutation exclusivity
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/24025726" target="_blank">Identification of potential synthetic lethal genes to p53 using a computational biology approach. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    BMC Med Genomics, 2013-9
+			  </td>
+			  <td>
+			    93
+			  </td>
+			  <td>
+			    Expression
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/23728082" target="_blank">Identification of synthetic lethal pairs in biological systems through network information centrality.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Mol Biosyst, 2013-8
+			  </td>
+			  <td>
+			    109
+			  </td>
+			  <td>
+			    Network
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/26427375" target="_blank">Inferring synthetic lethal interactions from mutual exclusivity of genetic events in cancer.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Biol Direct, 2015-10
+			  </td>
+			  <td>
+			    813
+			  </td>
+			  <td>
+			    Mutation exclusivity
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/27453043" target="_blank">A Network of Conserved Synthetic Lethal Interactions for Exploration of Precision Cancer Therapy.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Mol Cell, 2016-8
+			  </td>
+			  <td>
+			    5556
+			  </td>
+			  <td>
+			    Network
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/28481362 " target="_blank">Genetic interaction mapping in mammalian cells using CRISPR interference.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nat Methods, 2017-6
+			  </td>
+			  <td>
+			   109
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/28319113" target="_blank">Combinatorial CRISPR-Cas9 screens for de novo mapping of genetic interactions.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nat Methods, 2017-6
+			  </td>
+			  <td>
+			   181
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/28319085" target="_blank">Synergistic drug combinations for cancer identified in a CRISPR screen for pairwise genetic interactions.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nat Biotechnol, 2017-5
+			  </td>
+			  <td>
+			   38
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/27557495 " target="_blank">Therapeutic relevance of the protein phosphatase 2A in cancer.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Oncotarget, 2016-9
+			  </td>
+			  <td>
+			   464
+			  </td>
+			  <td>
+			    DAISY
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/26781748" target="_blank">Multi-omic measurement of mutually exclusive loss-of-function enriches for candidate synthetic lethal gene pairs.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    BMC Genomics, 2016-1
+			  </td>
+			  <td>
+			   978
+			  </td>
+			  <td>
+			    Mutation exclusivity
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/26451775" target="_blank">Connectivity Homology Enables Inter-Species Network Models of Synthetic Lethality.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    PLoS Comput Biol, 2015-10
+			  </td>
+			  <td>
+			   1492
+			  </td>
+			  <td>
+			    connectivity-homology-based models
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/26227665" target="_blank">Cancer type-dependent genetic interactions between cancer driver alterations indicate plasticity of epistasis across cell types.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Mol Syst Biol, 2015-7
+			  </td>
+			  <td>
+			   22
+			  </td>
+			  <td>
+			    permut
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/23563794" target="_blank">Mapping genetic interactions in human cancer cells with rnAi and multiparametric phenotyping.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nat Methods, 2013-5
+			  </td>
+			  <td>
+			   224
+			  </td>
+			  <td>
+			    RNAi
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://www.biorxiv.org/node/35405" target="_blank">Decoding directional genetic dependencies through orthogonal CRISPR/Cas screens.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    biorxiv, 2017-3
+			  </td>
+			  <td>
+			   57
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/24104479" target="_blank">Synthetic sickness or lethality points at candidate combination therapy targets in glioblastoma.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Int J Cancer, 2013-11
+			  </td>
+			  <td>
+			   1817
+			  </td>
+			  <td>
+			    somatic alteration and expression
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/23629686 " target="_blank">Predicting cancer-specific vulnerability via data-driven detection of synthetic lethality.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Cell, 2014-1
+			  </td>
+			  <td>
+			   2722
+			  </td>
+			  <td>
+			    DAISY
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/24104479" target="_blank">Widespread genetic epistasis among cancer genes. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nat Commun, 2014-11
+			  </td>
+			  <td>
+			   51
+			  </td>
+			  <td>
+			    RNAi
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/25933428 " target="_blank">Predicting human genetic interactions from cancer genome evolution.  <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    PLoS One, 2015-5
+			  </td>
+			  <td>
+			   266
+			  </td>
+			  <td>
+			    Expression
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/29467179" target="_blank">Toward an integrated map of genetic interactions in cancer cells. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Mol Syst Biol, 2018-1
+			  </td>
+			  <td>
+			   5782
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/9669295" target="_blank">A Quantitative Chemotherapy Genetic Interaction Map Reveals Factors Associated with PARP Inhibitor Resistance. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Cell Rep, 2018-1
+			  </td>
+			  <td>
+			   57
+			  </td>
+			  <td>
+			    siRNA
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/29855504" target="_blank">Synthetic Lethality-based Identification of Targets for Anticancer Drugs in the Human Signaling Network. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Sci Rep, 2018-5
+			  </td>
+			  <td>
+			   2555
+			  </td>
+			  <td>
+			    Network
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/31300006" target="_blank">GEMINI: a variational Bayesian approach to identify genetic interactions from combinatorial CRISPR screens. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Genome Biol, 2019-07
+			  </td>
+			  <td>
+			   226
+			  </td>
+			  <td>
+			    CRISPR
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/31351478" target="_blank">Humanized yeast genetic interaction mapping predicts synthetic lethal interactions of FBXW7 in breast cancer. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    BMC Med Genomics, 2019-07
+			  </td>
+			  <td>
+			   777
+			  </td>
+			  <td>
+			    Expression
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/31400611" target="_blank">Genetic Interaction-Based Biomarkers Identification for Drug Resistance and Sensitivity in Cancer Cells. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Mol Ther Nucleic Acids, 2019-9
+			  </td>
+			  <td>
+			   4522
+			  </td>
+			  <td>
+			    Mutation exclusivity
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/31709193" target="_blank">Pan-Cancer Analysis of Potential Synthetic Lethal Drug Targets Specific to Alterations in DNA Damage Response. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Front Oncol, 2019-10
+			  </td>
+			  <td>
+			   276
+			  </td>
+			  <td>
+			    Mutual exclusivity and somatic mutations
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/19490893" target="_blank">A genome-wide RNAi screen identifies multiple synthetic lethal interactions with the Ras oncogene. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Cell, 2009-5
+			  </td>
+			  <td>
+			   204
+			  </td>
+			  <td>
+			    RNAi
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/22613949" target="_blank">Determination of synthetic lethal interactions in KRAS oncogene-dependent cancer cells reveals novel therapeutic targeting strategies. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Cell Res, 2012-8
+			  </td>
+			  <td>
+			   197
+			  </td>
+			  <td>
+			    RNAi
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    <a href="https://pubmed.ncbi.nlm.nih.gov/19847166" target="_blank">Systematic RNA interference reveals that oncogenic KRAS-driven cancers require TBK1. <span class="glyphicon glyphicon-new-window"></span></a>
+			  </td>
+			  <td>
+			    Nature, 2018-11
+			  </td>
+			  <td>
+			   220
+			  </td>
+			  <td>
+			    RNAi
+			  </td>
+			</tr>
+
+		      </tbody>
+		    </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+
+                <div class="home-bottom">
+
+                </div>
+</div>
+
+<svg class="tool_icon" aria-hidden="true" onmouseover="overShow_7()" onmouseout="outHide_7()" onclick="popWin_1()">
+    <use xlink:href="#icon-shiliangzhinengduixiang_fuzhi"></use>
+</svg>
+
+
+
+  </body>
+
+  <script>
+  $.each($('#human-body-highlights').children(),function(index,e){$(e).bind("mouseover",function(){$('.'+this.classList[0]).css("opacity","1")})})
+  $.each($('#human-body-highlights').children(),function(index,e){$(e).bind("mouseout",function(){$('.'+this.classList[0]).css("opacity","0")})})
+  </script>
+
+</html>
+

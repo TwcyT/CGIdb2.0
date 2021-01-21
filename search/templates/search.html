@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <link rel="icon" href="/static/CGIdb2/static/image/logo.ico" type="image/x-icon">
+  <title>
+    Search
+  </title>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/jquery.treeview.css" />
+	<link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/screen.css" />
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/left-side-menu.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/reset.css">
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/style.css">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"  href="/static/CGIdb2/static/css/tablesorter.blue.css"></link>
+    <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+
+	<script type="text/javascript" src="/static/CGIdb2/static/js/anno_svg.js"></script>
+	<script type="text/javascript" src="/static/CGIdb2/static/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/static/CGIdb2/static/js/jquery.treeview.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.treeview.async.js" ></script>
+    <script type="text/javascript" src="/static/GI/js/tableExporter.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#browser").treeview({
+			toggle: function() {
+				console.log("%s was toggled.", $(this).find(">span").text());
+			}
+		});
+	});
+	</script>
+<style>
+
+::-webkit-scrollbar{width:10px;background-color:#e1e5ea;border-radius:8px}
+::-webkit-scrollbar-thumb{background-color:#c3cad4;border-radius:10px;border:2px solid #e1e5ea;}
+::-webkit-scrollbar-thumb:hover{background-color:#aab1bc;}
+    .tool_icon_anno{
+    width: 0.5em;
+    height: 0.5em;
+    fill: currentColor;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: -0.7em;
+    margin-left: -0.25em;
+    }
+        .tool_icon{
+       width: 1.4em; height: 1.4em;
+       fill: currentColor;
+       overflow: hidden;
+        display:inline-block;
+        text-align: center;
+        vertical-align: middle;
+    }
+.anno_svg{
+				position: absolute;
+				color: whitesmoke;
+				font-size: 15px;
+				padding: 8px 12px;
+				border-radius: 4px;
+				background-color: rgba(50, 50, 50, .9);
+				z-index: 1000;
+				display: none;
+				white-space: nowrap;
+				line-height: 20px;
+}
+.home-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.main-body-1 {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: calc(100% - 116px);
+    margin-top:10px;
+    margin-bottom:10px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+    flex-wrap: wrap;
+}
+
+.file{
+    cursor: pointer;
+}
+
+.main-body-min {
+    float:left;
+    width:calc(100% - 60px)
+}
+.main-body-max {
+    float:left;
+    width:calc(100% - 240px)
+}
+.contact_size {
+    font:16px "微软雅黑","宋体","Arial Narrow",HELVETICA;
+}
+    </style>
+    <style>
+        .browse_example{
+    font-weight:400;
+    line-height:1.5;
+    color: #1890ff;
+    font-size: 17px;
+    float:left;
+    margin-right: 15px;
+    cursor:pointer;
+}
+        .home_title {
+    float:left;
+    width:100%;
+    height:40px;
+    font-size:28px;
+    font-weight:500;
+    color:rgba(0,0,0,.65);
+    margin-left: 15px;
+}
+    </style>
+
+</head>
+<body style="min-width:1500px;min-height:730px;color: #000000;    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.5;    background-color: #E2E2E2;">
+
+
+
+
+<div class="left-side-menu" style="position:fixed;float:left;height:calc(100%);z-index:999">
+    <div class="lsm-expand-btn">
+        <div class="lsm-mini-btn">
+            <label style="display: block;">
+                <input type="checkbox" checked="checked">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="30" />
+                    <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                    <path class="line--2" d="M0 50h80" />
+                    <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                </svg>
+
+            </label>
+
+
+<!--        <input type="text"/>-->
+        </div>
+
+    </div>
+
+
+
+    <div class="lsm-container">
+        <div class="lsm-scroll" >
+            <div class="lsm-sidebar">
+                <ul>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/"><i class="my-icon lsm-sidebar-icon icon-zhuye"></i><span>HOME</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 1.5%">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-chaxun"></i><span>SEARCH</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-tongji"></i><span>DOWNLOAD</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                            <li><a href="/CGIdb2/statistic_gene"><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;margin-left: -4px;"></i><span>Tissue</span></a></li>
+                            <li><a href="/CGIdb2/statistic_source"><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;"></i><span>Source</span></a></li>
+                            <li><a href="/CGIdb2/statistic_drug"><i class="my-icon lsm-sidebar-icon icon-jiaonang"></i><span>Drug</span></a></li>
+                            <li><a href="/CGIdb2/statistic_com_path"><i class="my-icon lsm-sidebar-icon icon-icon_pathwayx-copy"></i><span>Complex/Pathway</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/FAQ"><i class="my-icon lsm-sidebar-icon icon-wenhao"></i><span>FAQ</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/contact"><i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i><span>CONTACT US</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div  id="main-body" class="main-body" style="padding-left:20px;float:left;margin-left:240px;width:calc(100% - 260px);">
+
+    <div class="home-top">
+        <div class="home_title" style="float:left">
+    <div style="float:left;width:37px;height:42.5px">
+    <img src="/static/CGIdb2/static/image/logo.gif" style="width:100%; height:100%;">
+    </div>
+    <div style="float:left;padding-left:12px;line-height: 1.3">
+    <p><span style="color:#5687bd; font-size:35px">C</span>ancer
+        <span style="color:#5687bd; font-size:35px">G</span>enetic
+        <span style="color:#5687bd; font-size:35px">I</span>nteraction
+        <span style="color:#5687bd; font-size:35px">d</span>ata<span style="color:#5687bd; font-size:35px">b</span>ase
+        <span style="font-size:20px">2.0</span>
+    </p>
+    </div>
+</div>
+    </div>
+
+<div  class="main-body-1" style="padding:24px; padding-bottom:0px;">
+<div style="width:100%;margin-top:15px;margin-left:50px;margin-right:50px;">
+        <div style="font-size: 30px;font-weight: 700;">
+            Search
+            <span>
+                <svg class="tool_icon_anno" aria-hidden="true" onmouseover="annoShow_1()" onmouseout="annoHide_1()">
+                    <use xlink:href="#icon-wenhao1"></use>
+                </svg>
+            </span>
+        </div>
+</div>
+    <div style="width: 100%; margin: auto;margin-bottom: 3px;">
+        <div style="width:630px;margin: auto;">
+                <div id="c0" class="browse_example" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#1890ff'" style=" margin-left: 145px;">AMPD2</div>
+                <div id="c1" class="browse_example" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#1890ff'">ANK3</div>
+                <div id="c2" class="browse_example" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#1890ff'">APEX1</div>
+                <div id="c3" class="browse_example" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#1890ff'">CDH24</div>
+                <div id="c4" class="browse_example" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#1890ff'">MAP2K7</div>
+        </div>
+    </div>
+     <div class="searchbox" style="margin-top: 0px; margin-bottom: 30px; ">
+    <div class="mod_select" style="border-right: 2px solid #444786;height:42px;">
+        <div class="select_box">
+            <span  style="padding-left: 10px;" class="select_txt">Gene</span>
+            <span class="select-icon"></span>
+        </div>
+    </div>
+    <form method="post" name="results_form" action="/CGIdb2/results/" id="browse_form" role="form">
+        {% csrf_token %}
+        <input type="hidden" name="search_type" value="Gene" id="select_value">
+        <input type="text" name="filter" id="searchPlaceholder" class="import" placeholder="Please input the gene symbol or gene id">
+        <input type="submit" value="Search" id="form_submit" class="btn-search">
+    </form>
+  </div>
+
+    <div id="search_browse_box" class="search_browse_box" style="height:70%;width:100%;border-top: 1px solid #e9e9e9;">
+
+        <div style="margin-left:50px;margin-right:50px;">
+        <div style="font-size: 30px;font-weight: 700;">
+            Browse
+            <span>
+                <svg class="tool_icon_anno" aria-hidden="true" onmouseover="annoShow_2()" onmouseout="annoHide_2()">
+                    <use xlink:href="#icon-wenhao1"></use>
+                </svg>
+            </span>
+        </div>
+<div style="margin-bottom:20px;height:650px">
+<div style="float:left;overflow:auto; height:650px;width:20%">
+<div>
+<table class="tablesorter table" style="margin :0;height:650px;overflow:auto;">
+    <tbody>
+        <tr>
+            <td style="border-top: 0px;">
+
+	<ul id="browser" class="filetree treeview-famfamfam">
+		<li><span class="folder">Genetic Interaction</span>
+			<ul>
+				<li class="closed"><span class="folder">Synthetic Lethality</span>
+					<ul>
+						<li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/A/',success:function(){$('#data_table').html(a.responseText)}})">A</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/B/',success:function(){$('#data_table').html(a.responseText)}})">B</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/C/',success:function(){$('#data_table').html(a.responseText)}})">C</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/D/',success:function(){$('#data_table').html(a.responseText)}})">D</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/E/',success:function(){$('#data_table').html(a.responseText)}})">E</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/F/',success:function(){$('#data_table').html(a.responseText)}})">F</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/G/',success:function(){$('#data_table').html(a.responseText)}})">G</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/H/',success:function(){$('#data_table').html(a.responseText)}})">H</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/I/',success:function(){$('#data_table').html(a.responseText)}})">I</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/J/',success:function(){$('#data_table').html(a.responseText)}})">J</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/K/',success:function(){$('#data_table').html(a.responseText)}})">K</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/L/',success:function(){$('#data_table').html(a.responseText)}})">L</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/M/',success:function(){$('#data_table').html(a.responseText)}})">M</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/N/',success:function(){$('#data_table').html(a.responseText)}})">N</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/O/',success:function(){$('#data_table').html(a.responseText)}})">O</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/P/',success:function(){$('#data_table').html(a.responseText)}})">P</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/Q/',success:function(){$('#data_table').html(a.responseText)}})">Q</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/R/',success:function(){$('#data_table').html(a.responseText)}})">R</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/S/',success:function(){$('#data_table').html(a.responseText)}})">S</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/T/',success:function(){$('#data_table').html(a.responseText)}})">T</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/U/',success:function(){$('#data_table').html(a.responseText)}})">U</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/V/',success:function(){$('#data_table').html(a.responseText)}})">V</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/W/',success:function(){$('#data_table').html(a.responseText)}})">W</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/X/',success:function(){$('#data_table').html(a.responseText)}})">X</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/Y/',success:function(){$('#data_table').html(a.responseText)}})">Y</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SL/Z/',success:function(){$('#data_table').html(a.responseText)}})">Z</span></li>
+					</ul>
+				</li>
+				<li class="closed"><span class="folder">Synthetic Viability</span>
+					<ul>
+						<li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/A/',success:function(){$('#data_table').html(a.responseText)}})">A</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/B/',success:function(){$('#data_table').html(a.responseText)}})">B</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/C/',success:function(){$('#data_table').html(a.responseText)}})">C</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/D/',success:function(){$('#data_table').html(a.responseText)}})">D</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/E/',success:function(){$('#data_table').html(a.responseText)}})">E</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/F/',success:function(){$('#data_table').html(a.responseText)}})">F</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/G/',success:function(){$('#data_table').html(a.responseText)}})">G</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/H/',success:function(){$('#data_table').html(a.responseText)}})">H</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/I/',success:function(){$('#data_table').html(a.responseText)}})">I</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/J/',success:function(){$('#data_table').html(a.responseText)}})">J</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/K/',success:function(){$('#data_table').html(a.responseText)}})">K</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/L/',success:function(){$('#data_table').html(a.responseText)}})">L</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/M/',success:function(){$('#data_table').html(a.responseText)}})">M</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/N/',success:function(){$('#data_table').html(a.responseText)}})">N</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/O/',success:function(){$('#data_table').html(a.responseText)}})">O</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/P/',success:function(){$('#data_table').html(a.responseText)}})">P</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/Q/',success:function(){$('#data_table').html(a.responseText)}})">Q</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/R/',success:function(){$('#data_table').html(a.responseText)}})">R</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/S/',success:function(){$('#data_table').html(a.responseText)}})">S</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/T/',success:function(){$('#data_table').html(a.responseText)}})">T</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/U/',success:function(){$('#data_table').html(a.responseText)}})">U</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/V/',success:function(){$('#data_table').html(a.responseText)}})">V</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/W/',success:function(){$('#data_table').html(a.responseText)}})">W</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/X/',success:function(){$('#data_table').html(a.responseText)}})">X</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/Y/',success:function(){$('#data_table').html(a.responseText)}})">Y</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/SV/Z/',success:function(){$('#data_table').html(a.responseText)}})">Z</span></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><span class="folder">Tissue</span>
+            <ul>
+						<li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/biliary_tract/',success:function(){$('#data_table').html(a.responseText)}})">biliary_tract</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/bladder/',success:function(){$('#data_table').html(a.responseText)}})">bladder</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/blood/',success:function(){$('#data_table').html(a.responseText)}})">blood</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/bone/',success:function(){$('#data_table').html(a.responseText)}})">bone</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/brain/',success:function(){$('#data_table').html(a.responseText)}})">brain</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/breast/',success:function(){$('#data_table').html(a.responseText)}})">breast</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/central_nervous_system/',success:function(){$('#data_table').html(a.responseText)}})">central_nervous_system</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/cervix/',success:function(){$('#data_table').html(a.responseText)}})">cervix</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/haematopoietic_and_lymphoid_tissue/',success:function(){$('#data_table').html(a.responseText)}})">haematopoietic_and_lymphoid_tissue</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/head_and_neck/',success:function(){$('#data_table').html(a.responseText)}})">head_and_neck</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/kidney/',success:function(){$('#data_table').html(a.responseText)}})">kidney</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/large_intestine/',success:function(){$('#data_table').html(a.responseText)}})">large_intestine</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/liver/',success:function(){$('#data_table').html(a.responseText)}})">liver</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/lung/',success:function(){$('#data_table').html(a.responseText)}})">lung</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/oesophagus/',success:function(){$('#data_table').html(a.responseText)}})">oesophagus</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/ovary/',success:function(){$('#data_table').html(a.responseText)}})">ovary</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/pancreas/',success:function(){$('#data_table').html(a.responseText)}})">pancreas</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/pleura/',success:function(){$('#data_table').html(a.responseText)}})">pleura</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/prostate/',success:function(){$('#data_table').html(a.responseText)}})">prostate</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/skin/',success:function(){$('#data_table').html(a.responseText)}})">skin</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/soft_tissue/',success:function(){$('#data_table').html(a.responseText)}})">soft_tissue</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/stomach/',success:function(){$('#data_table').html(a.responseText)}})">stomach</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/thyroid/',success:function(){$('#data_table').html(a.responseText)}})">thyroid</span></li>
+                        <li><span class="file" onmouseover="this.style.color='#dc143c'" onmouseout="this.style.color='#000000'" onclick="loading(); a=$.ajax({url:'/CGIdb2/browse_gene/tissues/uterus/',success:function(){$('#data_table').html(a.responseText)}})">uterus</span></li>
+
+					</ul>
+		</li>
+	</ul>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+
+<div style="float:left;overflow:auto; height:650px;width:80%">
+<div id="data_table" style="padding-left: 10px;">
+
+<div class="table_attr" style="margin-right: 25%;float: right;width: 20%;">
+        <label>Show
+                <select id="page_length"  name="browse_table_length" aria-controls="browse_table" class="">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                </select> Entries
+        </label>
+</div>
+
+<div id="paginate" class="table_attr"  style="float: right;width: 30%;" >
+        <button id="previous"onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val());if(p != 1){p = p-1;a=$.ajax({url:'/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#table_container').html(a.responseText)}})}">Previous</button>
+        <button id="Next" onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val())+1;a=$.ajax({url:'/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#table_container').html(a.responseText)}})" style="margin-right:5px;">Next</button>
+        Page<input id="gotopage" style="width: 10%;"><p style="display: inline;"></p></input>
+        <button id="goto" onclick="p = $('#gotopage').val();if(0<p&&p<=Math.ceil({{ browse_length }}/$('#page_length').val())){a=$.ajax({url: '/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(),success:function(){$('#table_container').html(a.responseText)}})}">>></button>
+</div>
+
+<div id="table_container">
+
+		<table id="pair_table" class="tablesorter">
+
+		  <thead>
+		    <tr>
+		      <th>Type             <span>
+                <svg style="width:1.1em;height:1.1em;margin-top: -0.3em;" class="tool_icon_anno" aria-hidden="true" onmouseover="annoShow_3()" onmouseout="annoHide_3()">
+                    <use xlink:href="#icon-wenhao1"></use>
+                </svg>
+            </span>
+              </th>
+		      <th>Gene1 ID</th>
+		      <th>Gene1 Symbol</th>
+		      <th>Gene2 ID</th>
+		      <th>Gene2 Symbol</th>
+		      <th>Tissue</th>
+		      <th>Source</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for pair in browse_pairs %}
+		    <tr>
+		      <td>{{ pair.type }}</td>
+		      <td>{{ pair.gene1_id }}</td>
+		      <td>
+                  <p  style="margin:0px; float:left;width: calc(100% - 2.8em);">{{ pair.gene1_symbol }}</p>
+    <form method="post" name="results_form" action="/CGIdb2/results/" id="browse_form" role="form" style="height:28px;">
+        {% csrf_token %}
+        <input type="hidden" name="search_type" value="Gene" id="select_value">
+        <input type="hidden" name="filter" id="searchPlaceholder" value={{ pair.gene1_symbol }}>
+        <input type="submit" value="" class="tool_icon icon-sousuo2" style = 'z-index:999;float:right;position: relative;opacity: 0.1;background: none; border: none'>
+                <svg class="tool_icon" aria-hidden="true" style="position: relative; float: right; right: -1.4em;">
+                    <use xlink:href="#icon-sousuo2"></use>
+                </svg>
+ </form>
+              </td>
+		      <td>{{ pair.gene2_id }}</td>
+		      <td>
+                  <p  style="margin:0px; float:left;width: calc(100% - 2.8em);">{{ pair.gene2_symbol }}</p>
+    <form method="post" name="results_form" action="/CGIdb2/results/" id="browse_form" role="form" style="height:28px;">
+        {% csrf_token %}
+        <input type="hidden" name="search_type" value="Gene" id="select_value">
+        <input type="hidden" name="filter" id="searchPlaceholder" value={{ pair.gene2_symbol }}>
+        <input type="submit" value="" class="tool_icon icon-sousuo2" style = 'z-index:999;float:right;position: relative;opacity: 0.1;background: none; border: none'>
+                <svg class="tool_icon" aria-hidden="true" style="position: relative; float: right; right: -1.4em;">
+                    <use xlink:href="#icon-sousuo2"></use>
+                </svg>
+ </form>
+              </td>
+                <td>
+                    {% for t in pair.tissue %}
+                        <p style="margin-bottom: 0">{{ t }}</p>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for s in pair.source %}
+                        {% if s == 'SLDB' %}
+                            <p style="margin-bottom: 0"><a href="http://histone.sce.ntu.edu.sg/SynLethDB/" target="_blank">{{ s }};</a></p>
+                        {% else %}
+                            <p style="margin-bottom: 0"><a href="https://pubmed.ncbi.nlm.nih.gov/{{ s }}/" target="_blank">{{ s }};</a></p>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+<div class="dataTables_info" id="browse_table_info" role="status" aria-live="polite">
+                Showing 1 to 10 of {{ browse_length }} Entries
+        </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+        <div class="home-bottom"></div>
+</div>
+
+            <div id="search_anno" class="anno_svg"></div>
+            <div id="browse_anno" class="anno_svg"></div>
+            <div id="type_anno_1" class="anno_svg"></div>
+            <div id="source_anno" class="anno_svg"></div>
+
+
+
+
+
+<script>
+function exportto() {
+    $('#pair_table').tableExport({
+        filename: 'gene_pairs_info',
+        format: 'csv',
+        cols:'1,2,3,4,5,6,7',
+        head_delimiter:',',
+        col_delimiter:',',
+    });
+};
+    var x=["AMPD2","ANK3","APEX1","CDH24","MAP2K7"];
+var y=[];
+
+
+for(var i=0,m=x.length;i<m;i++){
+
+	document.getElementById("c"+i).onclick=(function(i){
+		return function(){
+			var s=y.join(",").indexOf(x[i]);
+			if(s>=0){
+				for(var r in y){
+					if(y[r]==x[i]){
+						y.splice(r,1)
+					}
+				}
+			}else{
+				y.push(x[i])
+			}
+			document.getElementById("searchPlaceholder").value=y.join(" ");
+			document.getElementById("form_submit").click();
+
+		}
+	})
+
+	(i)
+}
+</script>
+
+  <script>
+    $(function(){
+        $(".select_box").click(function(event){
+            event.stopPropagation();
+            $(this).find(".option").toggle();
+            $(this).parent().siblings().find(".option").hide();
+        });
+        $(document).click(function(event){
+            var eo=$(event.target);
+            if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
+            $('.option').hide();
+        });
+        $(".option li").click(function(){
+            var check_value=$(this).text();
+            var zlValue = $('.option li:eq(1)').html();
+            var bqValue = $('.option li:eq(2)').html();
+            $(this).parent().siblings(".select_txt").text(check_value);
+            $("#select_value").val(check_value);
+            if(check_value == zlValue) {
+                $('#searchPlaceholder').prop('placeholder','Please input the complex name');
+            }else if(check_value == bqValue) {
+                $('#searchPlaceholder').prop('placeholder','Please input the pathway name');
+            }else {
+                $('#searchPlaceholder').prop('placeholder','Please input the gene symbol or gene id');
+            }
+        });
+    })
+  </script>
+<script>
+          function loading()
+      {
+         $('#data_table').html("<img src='/static/GI/images/loading.gif'></img>");
+      }
+</script>
+<script>
+
+
+
+
+
+$('table').tablesorter({
+
+    // *** APPEARANCE ***
+    // Add a theme - try 'blackice', 'blue', 'dark', 'default'
+    //  'dropbox', 'green', 'grey' or 'ice'
+    // to use 'bootstrap' or 'jui', you'll need to add the "uitheme"
+    // widget and also set it to the same name
+    // this option only adds a table class name "tablesorter-{theme}"
+    theme: 'blue',
+
+    // fix the column widths
+    widthFixed: false,
+
+    // Show an indeterminate timer icon in the header when the table
+    // is sorted or filtered
+    showProcessing: false,
+
+    // header layout template (HTML ok); {content} = innerHTML,
+    // {icon} = <i/> (class from cssIcon)
+    headerTemplate: '{content}',
+
+    // return the modified template string
+    onRenderTemplate: null, // function(index, template){ return template; },
+
+    // called after each header cell is rendered, use index to target the column
+    // customize header HTML
+    onRenderHeader: function (index) {
+        // the span wrapper is added by default
+        $(this).find('div.tablesorter-header-inner').addClass('roundedCorners');
+    },
+
+    // *** FUNCTIONALITY ***
+    // prevent text selection in header
+    cancelSelection: true,
+
+    // other options: "ddmmyyyy" & "yyyymmdd"
+    dateFormat: "mmddyyyy",
+
+    // The key used to select more than one column for multi-column
+    // sorting.
+    sortMultiSortKey: "shiftKey",
+
+    // key used to remove sorting on a column
+    sortResetKey: 'ctrlKey',
+
+    // false for German "1.234.567,89" or French "1 234 567,89"
+    usNumberFormat: true,
+
+    // If true, parsing of all table cell data will be delayed
+    // until the user initializes a sort
+    delayInit: false,
+
+    // if true, server-side sorting should be performed because
+    // client-side sorting will be disabled, but the ui and events
+    // will still be used.
+    serverSideSorting: false,
+
+    // *** SORT OPTIONS ***
+    // These are detected by default,
+    // but you can change or disable them
+    // these can also be set using data-attributes or class names
+/*    headers: {
+        // set "sorter : false" (no quotes) to disable the column
+        0: {
+            sorter: "text"
+        },
+        1: {
+            sorter: "digit"
+        },
+        2: {
+            sorter: "text"
+        },
+        3: {
+            sorter: "url"
+        }
+    },
+*/
+    // ignore case while sorting
+    ignoreCase: true,
+
+    // forces the user to have this/these column(s) sorted first
+    sortForce: null,
+    // initial sort order of the columns, example sortList: [[0,0],[1,0]],
+    // [[columnIndex, sortDirection], ... ]
+/*    sortList: [
+        [0, 0],
+        [1, 0],
+        [2, 0]
+    ],
+*/
+    // default sort that is added to the end of the users sort
+    // selection.
+    sortAppend: null,
+
+    // starting sort direction "asc" or "desc"
+    sortInitialOrder: "asc",
+
+    // Replace equivalent character (accented characters) to allow
+    // for alphanumeric sorting
+    sortLocaleCompare: false,
+
+    // third click on the header will reset column to default - unsorted
+    sortReset: false,
+
+    // restart sort to "sortInitialOrder" when clicking on previously
+    // unsorted columns
+    sortRestart: false,
+
+    // sort empty cell to bottom, top, none, zero
+    emptyTo: "bottom",
+
+    // sort strings in numerical column as max, min, top, bottom, zero
+    stringTo: "max",
+
+    // extract text from the table - this is how is
+    // it done by default
+    textExtraction: {
+        0: function (node) {
+            return $(node).text();
+        },
+        1: function (node) {
+            return $(node).text();
+        }
+    },
+
+    // use custom text sorter
+    // function(a,b){ return a.sort(b); } // basic sort
+    textSorter: null,
+
+    // *** WIDGETS ***
+
+    // apply widgets on tablesorter initialization
+    initWidgets: true,
+
+    // include zebra and any other widgets, options:
+    // 'columns', 'filter', 'stickyHeaders' & 'resizable'
+    // 'uitheme' is another widget, but requires loading
+    // a different skin and a jQuery UI theme.
+    widgets: ['zebra', 'columns'],
+
+    widgetOptions: {
+
+        // zebra widget: adding zebra striping, using content and
+        // default styles - the ui css removes the background
+        // from default even and odd class names included for this
+        // demo to allow switching themes
+        // [ "even", "odd" ]
+        zebra: [
+            "ui-widget-content even",
+            "ui-state-default odd"],
+
+        // uitheme widget: * Updated! in tablesorter v2.4 **
+        // Instead of the array of icon class names, this option now
+        // contains the name of the theme. Currently jQuery UI ("jui")
+        // and Bootstrap ("bootstrap") themes are supported. To modify
+        // the class names used, extend from the themes variable
+        // look for the "$.extend($.tablesorter.themes.jui" code below
+        uitheme: 'jui',
+
+        // columns widget: change the default column class names
+        // primary is the 1st column sorted, secondary is the 2nd, etc
+        columns: [
+            "primary",
+            "secondary",
+            "tertiary"],
+
+        // columns widget: If true, the class names from the columns
+        // option will also be added to the table tfoot.
+        columns_tfoot: true,
+
+        // columns widget: If true, the class names from the columns
+        // option will also be added to the table thead.
+        columns_thead: true,
+
+        // filter widget: If there are child rows in the table (rows with
+        // class name from "cssChildRow" option) and this option is true
+        // and a match is found anywhere in the child row, then it will make
+        // that row visible; default is false
+        filter_childRows: false,
+
+        // filter widget: If true, a filter will be added to the top of
+        // each table column.
+        filter_columnFilters: true,
+
+        // filter widget: css class applied to the table row containing the
+        // filters & the inputs within that row
+        filter_cssFilter: "tablesorter-filter",
+
+        // filter widget: Customize the filter widget by adding a select
+        // dropdown with content, custom options or custom filter functions
+        // see http://goo.gl/HQQLW for more details
+        filter_functions: null,
+
+        // filter widget: Set this option to true to hide the filter row
+        // initially. The rows is revealed by hovering over the filter
+        // row or giving any filter input/select focus.
+        filter_hideFilters: false,
+
+        // filter widget: Set this option to false to keep the searches
+        // case sensitive
+        filter_ignoreCase: true,
+
+        // filter widget: jQuery selector string of an element used to
+        // reset the filters.
+        filter_reset: null,
+
+        // Delay in milliseconds before the filter widget starts searching;
+        // This option prevents searching for every character while typing
+        // and should make searching large tables faster.
+        filter_searchDelay: 300,
+
+        // Set this option to true if filtering is performed on the server-side.
+        filter_serversideFiltering: false,
+
+        // filter widget: Set this option to true to use the filter to find
+        // text from the start of the column. So typing in "a" will find
+        // "albert" but not "frank", both have a's; default is false
+        filter_startsWith: false,
+
+        // filter widget: If true, ALL filter searches will only use parsed
+        // data. To only use parsed data in specific columns, set this option
+        // to false and add class name "filter-parsed" to the header
+        filter_useParsedData: false,
+
+        // Resizable widget: If this option is set to false, resized column
+        // widths will not be saved. Previous saved values will be restored
+        // on page reload
+        resizable: true,
+
+        // saveSort widget: If this option is set to false, new sorts will
+        // not be saved. Any previous saved sort will be restored on page
+        // reload.
+        saveSort: true,
+
+        // stickyHeaders widget: css class name applied to the sticky header
+        stickyHeaders: "tablesorter-stickyHeader"
+
+    },
+
+    // *** CALLBACKS ***
+    // function called after tablesorter has completed initialization
+    initialized: function (table) {},
+
+    // *** CSS CLASS NAMES ***
+    tableClass: 'tablesorter',
+    cssAsc: "tablesorter-headerSortUp",
+    cssDesc: "tablesorter-headerSortDown",
+    cssHeader: "tablesorter-header",
+    cssHeaderRow: "tablesorter-headerRow",
+    cssIcon: "tablesorter-icon",
+    cssChildRow: "tablesorter-childRow",
+    cssInfoBlock: "tablesorter-infoOnly",
+    cssProcessing: "tablesorter-processing",
+
+    // *** SELECTORS ***
+    // jQuery selectors used to find the header cells.
+    selectorHeaders: '> thead th, > thead td',
+
+    // jQuery selector of content within selectorHeaders
+    // that is clickable to trigger a sort.
+    selectorSort: "th, td",
+
+    // rows with this class name will be removed automatically
+    // before updating the table cache - used by "update",
+    // "addRows" and "appendCache"
+    selectorRemove: "tr.remove-me",
+
+    // *** DEBUGING ***
+    // send messages to console
+    debug: false
+
+}).tablesorterPager({
+
+    // target the pager markup - see the HTML block below
+    container: $(".pager"),
+
+    // use this url format "http:/mydatabase.com?page={page}&size={size}"
+    ajaxUrl: null,
+
+    // process ajax so that the data object is returned along with the
+    // total number of rows; example:
+    // {
+    //   "data" : [{ "ID": 1, "Name": "Foo", "Last": "Bar" }],
+    //   "total_rows" : 100
+    // }
+    ajaxProcessing: function(ajax) {
+        if (ajax && ajax.hasOwnProperty('data')) {
+            // return [ "data", "total_rows" ];
+            return [ajax.data, ajax.total_rows];
+        }
+    },
+
+    // output string - default is '{page}/{totalPages}';
+    // possible variables:
+    // {page}, {totalPages}, {startRow}, {endRow} and {totalRows}
+    output: '{startRow} to {endRow} ({totalRows})',
+
+    // apply disabled classname to the pager arrows when the rows at
+    // either extreme is visible - default is true
+    updateArrows: true,
+
+    // starting page of the pager (zero based index)
+    page: 0,
+
+    // Number of visible rows - default is 10
+    size: 10,
+
+    // if true, the table will remain the same height no matter how many
+    // records are displayed. The space is made up by an empty
+    // table row set to a height to compensate; default is false
+    fixedHeight: true,
+
+    // remove rows from the table to speed up the sort of large tables.
+    // setting this to false, only hides the non-visible rows; needed
+    // if you plan to add/remove rows with the pager enabled.
+    removeRows: false,
+
+    // css class names of pager arrows
+    // next page arrow
+    cssNext: '.next',
+    // previous page arrow
+    cssPrev: '.prev',
+    // go to first page arrow
+    cssFirst: '.first',
+    // go to last page arrow
+    cssLast: '.last',
+    // select dropdown to allow choosing a page
+    cssGoto: '.gotoPage',
+    // location of where the "output" is displayed
+    cssPageDisplay: '.pagedisplay',
+    // dropdown that sets the "size" option
+    cssPageSize: '.pagesize',
+    // class added to arrows when at the extremes
+    // (i.e. prev/first arrows are "disabled" when on the first page)
+    // Note there is no period "." in front of this class name
+    cssDisabled: 'disabled'
+
+});
+</script>
+  </body>
+
+
+</html>
+

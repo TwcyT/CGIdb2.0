@@ -1,0 +1,850 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <link rel="icon" href="/static/CGIdb2/static/image/logo.ico" type="image/x-icon">
+  <title>
+    Download Page -- Tissue
+  </title>
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/left-side-menu.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/dataTool.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.freezeheader.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/statistic_svg_anno.js" type="module"></script>
+    <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+    {% load staticfiles %}
+
+
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/reset.css">
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/style.css">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+.svg_anno{
+				position: absolute;
+				color: whitesmoke;
+				font-size: 15px;
+				padding: 8px 12px;
+				border-radius: 4px;
+				background-color: rgba(50, 50, 50, .9);
+				z-index: 1000;
+				display: none;
+				white-space: nowrap;
+				line-height: 20px;
+}
+
+    </style>
+<style>
+        .tool_icon{
+width: 20px;
+    height: 20px;
+    margin-bottom: -2px;
+       fill: currentColor;
+       overflow: hidden;
+        cursor:pointer;
+        margin-left:4px;
+            fill:#595959;
+    }
+.home-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+
+.statistic_main_body {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top:10px;
+    margin-bottom:10px;
+    background: #fff;
+    z-index: 20;
+    flex-wrap: wrap;
+    padding: 24px;
+}
+
+.statistic_gene_table thead th { position: sticky; top: 0; }
+.statistic_gene_table tr { height:40px;vertical-align: middle; }
+.main-body-min {
+    float:left;
+    width:calc(100% - 60px)
+}
+.main-body-max {
+    float:left;
+    width:calc(100% - 240px)
+}
+.contact_size {
+    font:16px "微软雅黑","宋体","Arial Narrow",HELVETICA;
+}
+
+
+::-webkit-scrollbar{width:10px;background-color:#e1e5ea;border-radius:8px}
+::-webkit-scrollbar-thumb{background-color:#c3cad4;border-radius:10px;border:2px solid #e1e5ea;}
+::-webkit-scrollbar-thumb:hover{background-color:#aab1bc;}
+
+.count_title{
+    float:left;
+    font-size: 30px;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 0;
+    text-align: center;
+}
+    .percent_outer{
+        padding-right: 4.75em;
+        margin-right: -4.75em;
+        display: inline-block;
+        width: 100%;
+        padding-left:20px;
+    }
+    .percent_inner{
+        display: inline-block;
+        width: 100%;
+        background-color: #f5f5f5;
+        border-radius: 100px;
+        vertical-align: middle;
+    }
+    .percent_bg{
+        border-radius: 100px;
+        background-color: #1890ff;
+        transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;
+        position: relative;
+    }
+    .ant-progress-text{
+        float: right;
+    }
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.home_title {
+    float:left;
+    width:100%;
+    height:40px;
+    font-size:28px;
+    font-weight:500;
+    color:rgba(0,0,0,.65);
+    margin-left: 15px;
+}
+    </style>
+</head>
+<body style="min-width:1500px;min-height:730px;color: #000000;    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.5;    background-color: #E2E2E2;">
+
+
+
+
+<div class="left-side-menu" style="position:fixed;float:left;height:calc(100%);z-index:999">
+    <div class="lsm-expand-btn">
+        <div class="lsm-mini-btn">
+            <label style="display: block;">
+                <input type="checkbox" checked="checked">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="30" />
+                    <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                    <path class="line--2" d="M0 50h80" />
+                    <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                </svg>
+
+            </label>
+
+
+<!--        <input type="text"/>-->
+        </div>
+
+    </div>
+
+
+
+    <div id="lsm-container" class="lsm-container">
+        <div class="lsm-scroll" >
+            <div class="lsm-sidebar">
+                <ul>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/"><i class="my-icon lsm-sidebar-icon icon-zhuye"></i><span>HOME</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 1.5%">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/search"><i class="my-icon lsm-sidebar-icon icon-chaxun"></i><span>SEARCH</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-tongji"></i><span>DOWNLOAD</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                            <li><a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;margin-left: -4px;"></i><span>Tissue</span></a></li>
+                            <li><a href="/CGIdb2/statistic_source"><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;"></i><span>Source</span></a></li>
+                            <li><a href="/CGIdb2/statistic_drug"><i class="my-icon lsm-sidebar-icon icon-jiaonang"></i><span>Drug</span></a></li>
+                            <li><a href="/CGIdb2/statistic_com_path"><i class="my-icon lsm-sidebar-icon icon-icon_pathwayx-copy"></i><span>Complex/Pathway</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/FAQ"><i class="my-icon lsm-sidebar-icon icon-wenhao"></i><span>FAQ</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/contact"><i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i><span>CONTACT US</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div  id="main-body" class="main-body" style="padding-left:20px;float:left;margin-left:240px;width:calc(100% - 260px);">
+
+    <div class="home-top">
+        <div class="home_title" style="float:left">
+    <div style="float:left;width:37px;height:42.5px">
+    <img src="/static/CGIdb2/static/image/logo.gif" style="width:100%; height:100%;">
+    </div>
+    <div style="float:left;padding-left:12px;line-height: 1.3">
+    <p><span style="color:#5687bd; font-size:35px">C</span>ancer
+        <span style="color:#5687bd; font-size:35px">G</span>enetic
+        <span style="color:#5687bd; font-size:35px">I</span>nteraction
+        <span style="color:#5687bd; font-size:35px">d</span>ata<span style="color:#5687bd; font-size:35px">b</span>ase
+        <span style="font-size:20px">2.0</span>
+    </p>
+    </div>
+</div>
+    </div>
+
+
+<div class="statistic_main_body">
+    <div class="statistic_title" style="width: 100%;">
+    <div class="counter col_fourth" style="width:30%;padding-left:12px; padding-right:12px;float:left;margin-left:20%;">
+<i class="my-icon lsm-sidebar-icon icon-renti1" style="float: left; font-size: 33px; padding-top: 7px; padding-right: 15px;"></i>
+       <div class="count_title" style="margin-right:10px">Tissue:</div>
+      <div class="timer count_title" id="count-number" data-to="25" data-speed="800"></div>
+    </div>
+
+    <div class="counter col_fourth" style="width:30%;padding-left:12px; padding-right:12px;float:left;margin-right:20%;">
+        <i class="my-icon lsm-sidebar-icon icon-iconrtcf" style="float: left; font-size: 33px;padding-top: 7px;padding-right: 15px;"></i>
+      <div class="count_title" style="margin-right:10px">Interaction:</div>
+      <div class="timer count_title" id="count-number" data-to="20918" data-speed="2000" ></div>
+    </div>
+
+
+            <script type="text/javascript" src="/static/CGIdb2/static/js/count.js"></script>
+        </div>
+    <div class="statistic_body_title" style="width:100%;float:left; border-bottom: 1px solid #e9e9e9; padding: 20px 10px 6px;margin-bottom: 10px;font-size: 18px;font-weight: 700;">
+        Category
+        <span>
+            <i>
+                <a  href="/CGIdb2/data/SL_SV_tissue/">
+                    <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_10()" onmouseout="outHide_10()">
+                        <use xlink:href="#icon-xiazai"></use>
+                    </svg>
+                </a>
+            </i>
+        </span>
+        </div>
+    <div class="statistic_gene_table" style="float:left;width:calc(100% - 500px);overflow-y:auto;height:360px">
+        <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px;background-color: #F7F7F7; width:60%">Tissue</th>
+		      <th style="height:40px;background-color: #F7F7F7;text-align:right">Interaction</th>
+              <th style="height:40px;background-color: #F7F7F7;text-align:right">Percent</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td style="height:20px">Colorectal</td>
+		      <td style="text-align:right;height:20px">3079</td>
+		      <td style="text-align:right;height:20px">14.72%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Breast</td>
+		      <td style="text-align:right;height:20px">3018</td>
+		      <td style="text-align:right;height:20px">14.43%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Nervous System</td>
+		      <td style="text-align:right;height:20px">2958</td>
+		      <td style="text-align:right;height:20px">14.14%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lung</td>
+		      <td style="text-align:right;height:20px">2082</td>
+		      <td style="text-align:right;height:20px">9.95%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lymph Nodes</td>
+		      <td style="text-align:right;height:20px">1830</td>
+		      <td style="text-align:right;height:20px">8.75%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Skin</td>
+		      <td style="text-align:right;height:20px">1192</td>
+		      <td style="text-align:right;height:20px">5.7%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Kidney</td>
+		      <td style="text-align:right;height:20px">1129</td>
+		      <td style="text-align:right;height:20px">5.4%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Ovary</td>
+		      <td style="text-align:right;height:20px">955</td>
+		      <td style="text-align:right;height:20px">4.56%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Stomach</td>
+		      <td style="text-align:right;height:20px">846</td>
+		      <td style="text-align:right;height:20px">4.04%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pancreas</td>
+		      <td style="text-align:right;height:20px">786</td>
+		      <td style="text-align:right;height:20px">3.76%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Esophagus</td>
+		      <td style="text-align:right;height:20px">690</td>
+		      <td style="text-align:right;height:20px">3.3%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bladder</td>
+		      <td style="height:20px;text-align:right">595</td>
+		      <td style="height:20px;text-align:right">2.84%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Uterus</td>
+		      <td style="text-align:right;height:20px">419</td>
+		      <td style="text-align:right;height:20px">2%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Liver</td>
+		      <td style="text-align:right;height:20px">393</td>
+		      <td style="text-align:right;height:20px">1.88%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Blood</td>
+		      <td style="text-align:right;height:20px">244</td>
+		      <td style="text-align:right;height:20px">1.17%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Soft Tissue</td>
+		      <td style="text-align:right;height:20px">206</td>
+		      <td style="text-align:right;height:20px">0.98%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bone</td>
+		      <td style="text-align:right;height:20px">200</td>
+		      <td style="text-align:right;height:20px">0.96%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Cervic</td>
+		      <td style="text-align:right;height:20px">108</td>
+		      <td style="text-align:right;height:20px">0.52%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Thyroid</td>
+		      <td style="text-align:right;height:20px">100</td>
+		      <td style="text-align:right;height:20px">0.48%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Prostate</td>
+		      <td style="text-align:right;height:20px">31</td>
+		      <td style="text-align:right;height:20px">0.15%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pleura</td>
+		      <td style="text-align:right;height:20px">19</td>
+		      <td style="text-align:right;height:20px">0.09%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bone Marrow</td>
+		      <td style="text-align:right;height:20px">13</td>
+		      <td style="text-align:right;height:20px">0.06%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Head and Neck</td>
+		      <td style="text-align:right;height:20px">12</td>
+		      <td style="text-align:right;height:20px">0.06%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bile Duct</td>
+		      <td style="height:20px;text-align:right">11</td>
+		      <td style="height:20px;text-align:right">0.05%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Brain</td>
+		      <td style="text-align:right;height:20px">2</td>
+		      <td style="text-align:right;height:20px">0.01%</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+
+        <div class="statistic_gene_pie" style="float:left">
+            <div  id="main-body-1" class="main-body-1" style="height:350px;width:500px">
+            </div>
+        </div>
+
+    <div class="statistic_body_title_2" style="width:100%;float:left; border-bottom: 1px solid #e9e9e9; padding: 25px 10px 6px;margin-bottom: 10px;font-size: 18px;font-weight: 700;">
+        Synthetic Lethality
+        <span>
+            <i>
+                <a  href="/CGIdb2/data/SL_tissue/">
+                    <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_11()" onmouseout="outHide_11()">
+                        <use xlink:href="#icon-xiazai"></use>
+                    </svg>
+                </a>
+            </i>
+        </span>
+        </div>
+    <div class="statistic_gene_table" style="float:left;width:calc(100% - 500px);overflow-y:auto;height:360px">
+        <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px;background-color: #F7F7F7; width:60%">Tissue</th>
+		      <th style="height:40px;background-color: #F7F7F7;text-align:right">Interaction</th>
+              <th style="height:40px;background-color: #F7F7F7;text-align:right">Percent</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td style="height:20px">Nervous System</td>
+		      <td style="text-align:right;height:20px">2144</td>
+		      <td style="text-align:right;height:20px">20.02%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Breast</td>
+		      <td style="text-align:right;height:20px">2097</td>
+		      <td style="text-align:right;height:20px">15.59%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Colorectal</td>
+		      <td style="text-align:right;height:20px">1687</td>
+		      <td style="text-align:right;height:20px">15.76%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lung</td>
+		      <td style="text-align:right;height:20px">851</td>
+		      <td style="text-align:right;height:20px">7.95%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lymph Nodes</td>
+		      <td style="text-align:right;height:20px">658</td>
+		      <td style="text-align:right;height:20px">6.15%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Kidney</td>
+		      <td style="text-align:right;height:20px">528</td>
+		      <td style="text-align:right;height:20px">4.93%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Skin</td>
+		      <td style="text-align:right;height:20px">366</td>
+		      <td style="text-align:right;height:20px">5.4%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Ovary</td>
+		      <td style="text-align:right;height:20px">278</td>
+		      <td style="text-align:right;height:20px">3.42%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Stomach</td>
+		      <td style="text-align:right;height:20px">278</td>
+		      <td style="text-align:right;height:20px">3.18%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pancreas</td>
+		      <td style="text-align:right;height:20px">266</td>
+		      <td style="text-align:right;height:20px">2.6%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Esophagus</td>
+		      <td style="text-align:right;height:20px">265</td>
+		      <td style="text-align:right;height:20px">2.48%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Uterus</td>
+		      <td style="height:20px;text-align:right">229</td>
+		      <td style="height:20px;text-align:right">2.46%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Uterus</td>
+		      <td style="text-align:right;height:20px">419</td>
+		      <td style="text-align:right;height:20px">2.14%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bladder</td>
+		      <td style="text-align:right;height:20px">199</td>
+		      <td style="text-align:right;height:20px">1.86%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Liver</td>
+		      <td style="text-align:right;height:20px">190</td>
+		      <td style="text-align:right;height:20px">1.77%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Blood</td>
+		      <td style="text-align:right;height:20px">165</td>
+		      <td style="text-align:right;height:20px">1.54%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bone</td>
+		      <td style="text-align:right;height:20px">154</td>
+		      <td style="text-align:right;height:20px">1.44%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Cervix</td>
+		      <td style="text-align:right;height:20px">108</td>
+		      <td style="text-align:right;height:20px">1.01%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Soft Tissue</td>
+		      <td style="text-align:right;height:20px">54</td>
+		      <td style="text-align:right;height:20px">0.5%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Thyroid</td>
+		      <td style="text-align:right;height:20px">51</td>
+		      <td style="text-align:right;height:20px">0.48%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Prostate</td>
+		      <td style="text-align:right;height:20px">31</td>
+		      <td style="text-align:right;height:20px">0.29%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bone Marrow</td>
+		      <td style="text-align:right;height:20px">13</td>
+		      <td style="text-align:right;height:20px">0.11%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Head and Neck</td>
+		      <td style="text-align:right;height:20px">12</td>
+		      <td style="text-align:right;height:20px">0.11%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bile Duct</td>
+		      <td style="height:20px;text-align:right">11</td>
+		      <td style="height:20px;text-align:right">0.1%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pleura</td>
+		      <td style="height:20px;text-align:right">7</td>
+		      <td style="height:20px;text-align:right">0.07%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Brain</td>
+		      <td style="text-align:right;height:20px">2</td>
+		      <td style="text-align:right;height:20px">0.02%</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+
+
+
+        <div class="statistic_gene_pie" style="float:left">
+            <div  id="main-body-2" class="main-body-2" style="height:350px;width:500px">
+            </div>
+        </div>
+
+
+
+
+
+
+    <div class="statistic_body_title_2" style="width:100%;float:left; border-bottom: 1px solid #e9e9e9; padding: 25px 10px 6px;margin-bottom: 10px;font-size: 18px;font-weight: 700;">
+        Synthetic Viability
+        <span>
+            <i>
+                <a  href="/CGIdb2/data/SV_tissue/">
+                    <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_12()" onmouseout="outHide_12()">
+                        <use xlink:href="#icon-xiazai"></use>
+                    </svg>
+                </a>
+            </i>
+        </span>
+        </div>
+    <div class="statistic_gene_table" style="float:left;width:calc(100% - 500px);overflow-y:auto;height:360px">
+        <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px;background-color: #F7F7F7; width:60%">Tissue</th>
+		      <th style="height:40px;background-color: #F7F7F7;text-align:right">Interaction</th>
+              <th style="height:40px;background-color: #F7F7F7;text-align:right">Percent</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td style="height:20px">Colorectal</td>
+		      <td style="text-align:right;height:20px">1392</td>
+		      <td style="text-align:right;height:20px">13.63%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lung</td>
+		      <td style="text-align:right;height:20px">12.06</td>
+		      <td style="text-align:right;height:20px">15.59%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Lymph Nodes</td>
+		      <td style="text-align:right;height:20px">1172</td>
+		      <td style="text-align:right;height:20px">11.48%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Breast</td>
+		      <td style="text-align:right;height:20px">921</td>
+		      <td style="text-align:right;height:20px">9.02%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Skin</td>
+		      <td style="text-align:right;height:20px">826</td>
+		      <td style="text-align:right;height:20px">8.09%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Nervous System</td>
+		      <td style="text-align:right;height:20px">814</td>
+		      <td style="text-align:right;height:20px">7.97%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Ovary</td>
+		      <td style="text-align:right;height:20px">614</td>
+		      <td style="text-align:right;height:20px">6.01%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Kidney</td>
+		      <td style="text-align:right;height:20px">601</td>
+		      <td style="text-align:right;height:20px">5.89%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Stomach</td>
+		      <td style="text-align:right;height:20px">568</td>
+		      <td style="text-align:right;height:20px">5.56%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pancreas</td>
+		      <td style="text-align:right;height:20px">520</td>
+		      <td style="text-align:right;height:20px">5.09%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Esophagus</td>
+		      <td style="text-align:right;height:20px">425</td>
+		      <td style="text-align:right;height:20px">4.16%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bladder</td>
+		      <td style="height:20px;text-align:right">396</td>
+		      <td style="height:20px;text-align:right">3.88%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Liver</td>
+		      <td style="text-align:right;height:20px">203</td>
+		      <td style="text-align:right;height:20px">1.99</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Uterus</td>
+		      <td style="text-align:right;height:20px">190</td>
+		      <td style="text-align:right;height:20px">1.86%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Soft Tissue</td>
+		      <td style="text-align:right;height:20px">152</td>
+		      <td style="text-align:right;height:20px">1.49%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Blood</td>
+		      <td style="text-align:right;height:20px">165</td>
+		      <td style="text-align:right;height:20px">0.77%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Blood</td>
+		      <td style="text-align:right;height:20px">79</td>
+		      <td style="text-align:right;height:20px">0.48%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Thyroid</td>
+		      <td style="text-align:right;height:20px">49</td>
+		      <td style="text-align:right;height:20px">1.01%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Bone</td>
+		      <td style="text-align:right;height:20px">46</td>
+		      <td style="text-align:right;height:20px">0.45%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">Pleura</td>
+		      <td style="text-align:right;height:20px">12</td>
+		      <td style="text-align:right;height:20px">0.12%</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+
+
+
+        <div class="statistic_gene_pie" style="float:left">
+            <div  id="main-body-3" class="main-body-3" style="height:350px;width:500px">
+            </div>
+        </div>
+
+    </div>
+        <div class="home-bottom"></div>
+</div>
+            <div id="download_click" class="svg_anno"></div>
+            <div id="download_click_2" class="svg_anno"></div>
+            <div id="download_click_3" class="svg_anno"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-body-1'));
+
+        myChart.setOption({
+            tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: 'Tissue',
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value:3079, name:'Colorectal'},
+                        {value:3018, name:'Breast'},
+                        {value:2958, name:'Nervous System'},
+                        {value:2082, name:'Lung'},
+                        {value:1830, name:'Lymph Nodes'},
+                        {value:1192, name:'Skin'},
+                        {value:1129, name:'Kidney'},
+                        {value:955, name:'Ovary'},
+                        {value:846, name:'Stomach'},
+                        {value:786, name:'Pancreas'},
+                        {value:690, name:'Esophagus'},
+                        {value:595, name:'Bladder'},
+                        {value:419, name:'Uterus'},
+                        {value:393, name:'Liver'},
+                        {value:244, name:'Blood'},
+                        {value:206, name:'Soft Tissue'},
+                        {value:200, name:'Bone'},
+                        {value:108, name:'Cervix'},
+                        {value:100, name:'Thyroid'},
+                        {value:31, name:'Prostate'},
+                        {value:19, name:'Pleura'},
+                        {value:13, name:'Bone Marrow'},
+                        {value:12, name:'Head and Neck'},
+                        {value:11, name:'Bile Duct'},
+                        {value:2, name:'Brain'},
+                    ]
+                }
+            ]
+        })
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-body-2'));
+
+        myChart.setOption({
+            tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: 'Tissue',
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value:2144, name:'Nervous System'},
+                        {value:2097, name:'Breast'},
+                        {value:1687, name:'Colorectal'},
+                        {value:851, name:'Lung'},
+                        {value:658, name:'Lymph Nodes'},
+                        {value:528, name:'Kidney'},
+                        {value:366, name:'Skin'},
+                        {value:341, name:'Ovary'},
+                        {value:278, name:'Stomach'},
+                        {value:266, name:'Pancreas'},
+                        {value:265, name:'Esophagus'},
+                        {value:229, name:'Uterus'},
+                        {value:199, name:'Bladder'},
+                        {value:190, name:'Liver'},
+                        {value:165, name:'Blood'},
+                        {value:154, name:'Bone'},
+                        {value:108, name:'Cervix'},
+                        {value:54, name:'Soft Tissue'},
+                        {value:51, name:'Thyroid'},
+                        {value:31, name:'Prostate'},
+                        {value:13, name:'Bone Marrow'},
+                        {value:12, name:'Head and Neck'},
+                        {value:11, name:'Bile Duct'},
+                        {value:7, name:'leura'},
+                        {value:2, name:'Brain'},
+                    ]
+                }
+            ]
+        })
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-body-3'));
+
+        myChart.setOption({
+            tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: 'Tissue',
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value:1392, name:'Colorectal'},
+                        {value:1231, name:'Lung'},
+                        {value:1172, name:'Lymph Nodes'},
+                        {value:921, name:'Breast'},
+                        {value:826, name:'Skin'},
+                        {value:814, name:'Nervous System'},
+                        {value:614, name:'Ovary'},
+                        {value:601, name:'Kidney'},
+                        {value:568, name:'Stomach'},
+                        {value:520, name:'Pancreas'},
+                        {value:425, name:'Esophagus'},
+                        {value:396, name:'Bladder'},
+                        {value:203, name:'Liver'},
+                        {value:190, name:'Uterus'},
+                        {value:152, name:'Soft Tissue'},
+                        {value:79, name:'Blood'},
+                        {value:49, name:'Thyroid'},
+                        {value:46, name:'Bone'},
+                        {value:12, name:'Pleura'},
+                    ]
+                }
+            ]
+        })
+    </script>
+  </body>
+
+
+</html>
+

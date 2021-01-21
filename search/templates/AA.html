@@ -1,0 +1,155 @@
+
+
+{% load staticfiles %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.tablesorter.widgets.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.tablesorter.pager.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+
+    <link rel="stylesheet"  href="/static/CGIdb2/static/css/tablesorter.blue.css"></link>
+        <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+<style>
+        .tool_icon{
+       width: 1.4em; height: 1.4em;
+       fill: currentColor;
+       overflow: hidden;
+        display:inline-block;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+
+
+<div class="table_attr" style="margin-right: 39%;">
+        <label>Show
+                <select id="page_length"  name="browse_table_length" aria-controls="browse_table" class="">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                </select> Entries
+        </label>
+</div>
+
+<div id="paginate" class="table_attr">
+        <button id="previous" onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val());if(p != 1){p = p-1;a=$.ajax({url:'/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#data_table').html(a.responseText)}})}">Previous</button>
+        <button id="Next" onclick="p = Math.ceil($('#browse_table_info').html().trim().split(' ')[1]/$('#page_length').val())+1;a=$.ajax({url:'/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(), success:function(){$('#data_table').html(a.responseText)}})" style="margin-right:5px;">Next</button>
+        Page<input id="gotopage" style="width: 5%;"><p style="display: inline;"></p></input>
+        <button id="goto" onclick="p = $('#gotopage').val();if(0<p&&p<=Math.ceil({{ genelength }}/$('#page_length').val())){a=$.ajax({url: '/CGIdb2/browse_gene/SL/'+'{{ letter }}'+'/'+p+'/'+$('#page_length').val(),success:function(){$('#data_table').html(a.responseText)}})}">>></button>
+</div>
+
+<div id="data_table">
+
+		<table id="pair_table" class="tablesorter">
+
+		  <thead>
+		    <tr>
+		      <th>Type             <span>
+                <svg style="width:1.1em;height:1.1em;margin-top: -0.3em;" class="tool_icon_anno" aria-hidden="true" onmouseover="annoShow_3()" onmouseout="annoHide_3()">
+                    <use xlink:href="#icon-wenhao1"></use>
+                </svg>
+            </span>
+              </th>
+		      <th>Target ID</th>
+		      <th>Target Symbol</th>
+		      <th>Partner ID</th>
+		      <th>Partner Symbol</th>
+		      <th>Tissue</th>
+		      <th>Source</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for pair in browse_pairs %}
+		    <tr>
+		      <td>{{ pair.type }}</td>
+		      <td>{{ pair.gene1_id }}</td>
+		      <td>
+                  <p  style="margin:0px; float:left;width: calc(100% - 2.8em);">{{ pair.gene1_symbol }}</p>
+    <form method="post" name="results_form" action="/CGIdb2/results/" id="browse_form" role="form" style="height:28px;">
+        {% csrf_token %}
+        <input type="hidden" name="search_type" value="Gene" id="select_value">
+        <input type="hidden" name="filter" id="searchPlaceholder" value={{ pair.gene1_symbol }}>
+        <input type="submit" value="" class="tool_icon icon-sousuo2" style = 'z-index:999;float:right;position: relative;opacity: 0.1;background: none; border: none'>
+                <svg class="tool_icon" aria-hidden="true" style="position: relative; float: right; right: -1.4em;">
+                    <use xlink:href="#icon-sousuo2"></use>
+                </svg>
+ </form>
+              </td>
+		      <td>{{ pair.gene2_id }}</td>
+		      <td>
+                  <p  style="margin:0px; float:left;width: calc(100% - 2.8em);">{{ pair.gene2_symbol }}</p>
+    <form method="post" name="results_form" action="/CGIdb2/results/" id="browse_form" role="form" style="height:28px;">
+        {% csrf_token %}
+        <input type="hidden" name="search_type" value="Gene" id="select_value">
+        <input type="hidden" name="filter" id="searchPlaceholder" value={{ pair.gene2_symbol }}>
+        <input type="submit" value="" class="tool_icon icon-sousuo2" style = 'z-index:999;float:right;position: relative;opacity: 0.1;background: none; border: none'>
+                <svg class="tool_icon" aria-hidden="true" style="position: relative; float: right; right: -1.4em;">
+                    <use xlink:href="#icon-sousuo2"></use>
+                </svg>
+ </form>
+              </td>
+		      <td>{{ pair.tissue }}</td>
+                <td>
+                    {% for s in pair.source %}
+                        {% if s == 'SLDB' %}
+                            <a href="http://histone.sce.ntu.edu.sg/SynLethDB/" target="_blank">{{ s }};</a>
+                        {% else %}
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/{{ s }}/" target="_blank">{{ s }};</a>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+<div class="dataTables_info" id="browse_table_info" role="status" aria-live="polite">
+                Showing 1 to 10 of {{ genelength }} Entries
+        </div>
+</div>
+
+
+<script>
+	$("#gene_info_table tr:even").css("background-color","#ffffff");
+	$("#gene_info_table tr:odd").css("background-color","#efefef");
+	$("#gene_info_table tr:last").css("border-bottom","1px solid black");
+ $("#gotopage").next().html("of "+Math.ceil({{ genelength }}/$('#page_length').val()))
+
+  $("#page_length").change(function(){
+                var xmlhttp;
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                                $("#table_container")[0].innerHTML=xmlhttp.responseText;
+                                $("#gotopage").next().html("of "+Math.ceil({{ genelength }}/$('#page_length').val()))
+				$("#gene_info_table tr:even").css("background-color","#ffffff");
+				$("#gene_info_table tr:odd").css("background-color","#efefef");
+				$("#gene_info_table tr:last").css("border-bottom","1px solid black");
+
+                        }
+                }
+                xmlhttp.open("GET","/CGIdb2/browse_gene/SL/"+"{{ letter }}"+"/"+{{ start }}+"/"+$(this).val()+"/",true);
+                xmlhttp.send();
+})
+                document.onkeydown = function(event_e){
+                if(window.event)
+                        event_e = window.event;
+                var int_keycode = event_e.charCode||event_e.keyCode;
+                if(int_keycode ==13){
+                        $('#goto').click();
+                }
+        }
+
+</script>

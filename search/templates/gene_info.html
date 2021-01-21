@@ -1,0 +1,117 @@
+    {% load staticfiles %}
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.0/echarts.min.js" integrity="sha512-ZRdjJAYP8Kij8Lkln9uiGj0jIrMDLAALm1ZB2b3VfV9XJ0nR4zbJmHKB42/A4tgMlZS4DTPnSAmcYRoS0dginA==" crossorigin="anonymous"></script>
+
+
+            <div id="gene_info_window_body">
+                <div class="gene_info_window_body_title" style="margin-bottom:15px;">
+                    <div style="width:100%; text-align:center">
+                        <img style="float:left; width:40px; height:40px;" src="/static/CGIdb2/static/image/Searching_gene.gif">
+                        <div style="float:left; margin-left:16px;margin-top:6px;font-size:16px">
+                            Drug
+                        </div>
+                    </div>
+                </div>
+                {% if gene_info_detail %}
+                <table>
+                    <tr>
+                        <td>
+                            Symbol
+                        </td>
+                        <td>
+                            {{ gene_info_detail.symbol }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Entrez ID
+                        </td>
+                        <td>
+                            {{ gene_info_detail.entrez_id }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Synonyms
+                        </td>
+                        <td>
+                            {{ gene_info_detail.Synonyms }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            {{ gene_info_detail.type_of_gene }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            {{ gene_info_detail.description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            chromosome
+                        </td>
+                        <td>
+                            {{ gene_info_detail.chromosome }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Location
+                        </td>
+                        <td>
+                            {{ gene_info_detail.map_location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Position
+                        </td>
+                        <td>
+                            {{ gene_info_detail.GeneStartBp }} - {{ gene_info_detail.GeneEndBp }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            HGNC ID
+                        </td>
+                        <td>
+                            {{ gene_info_detail.HGNCID }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Ensembl Protein Family
+                        </td>
+                        <td>
+                            {{ gene_info_detail.EnseProtFami }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            UniProtKB/Swiss-Prot ID
+                        </td>
+                        <td>
+                            {{ gene_info_detail.UniProtKBSwissProtId }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Role in Cancer (Census)
+                        </td>
+                        <td>
+                            {{ gene_info_detail.census }}
+                        </td>
+                    </tr>
+                </table>
+                {% endif %}
+
+
+                        </div>

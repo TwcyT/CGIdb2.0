@@ -1,0 +1,860 @@
+    {% load staticfiles %}
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.0/echarts.min.js" integrity="sha512-ZRdjJAYP8Kij8Lkln9uiGj0jIrMDLAALm1ZB2b3VfV9XJ0nR4zbJmHKB42/A4tgMlZS4DTPnSAmcYRoS0dginA==" crossorigin="anonymous"></script>
+
+            <div class="drug_effect_window_header">
+                <div class="drug_effect_window_title">
+                    Drug Effect
+                </div>
+            </div>
+            <div id="drug_effect_window_body" style="padding:24px;">
+                <div class="drug_effect_window_body_title" style="margin-bottom:15px;">
+                    <div style="width:33%; text-align:center">
+                        <i>
+                            <svg class="tool_icon" style = "width:35px; height:35px" aria-hidden="true">
+                                <use xlink:href="#icon-yaopin"></use>
+                            </svg>
+                        </i>
+                        <div style="margin-left:16px;margin-top:6px;font-size:16px">
+                            Drug
+                        </div>
+                        <div style="margin-left:16px;font-size:16px;height:23.4px">
+
+                        </div>
+                    </div>
+                    <div style="width:33%; text-align:center">
+                        <i>
+                            <svg class="tool_icon" style = "width:35px; height:35px" aria-hidden="true">
+                                <use xlink:href="#icon-badianyaopinzhuizong"></use>
+                            </svg>
+                        </i>
+                        <div style="margin-left:16px;margin-top:6px;font-size:16px">
+                            Target Gene
+                        </div>
+                        <div style="margin-left:16px;font-size:16px">
+                            {{ gene1_info.symbol }}
+                        </div>
+                    </div>
+                    <div style="width:33%; text-align:center">
+                        <i>
+                            <svg class="tool_icon" style = "width:35px; height:35px" aria-hidden="true">
+                                <use xlink:href="#icon-baxiangzhiliao"></use>
+                            </svg>
+                        </i>
+                        <div style="margin-left:16px;margin-top:6px;font-size:16px">
+                            Partner Gene
+                        </div>
+                        <div style="margin-left:16px;font-size:16px">
+                            {{ gene2_info.symbol }}
+                        </div>
+                    </div>
+                </div>
+
+<div id="drug_effect_result">
+	  <div>
+	    <div>
+	      <div id="second_box">
+	        <h2>Drug Effect<small> in CCLE</small></h2>
+		<div>
+		  <div>
+              <div id="no_chart">
+		    <div id="box_container" style="height:400px; width:100%;">
+                <p style="color:#777;padding-top : 150px;text-align: center">You can view the significant drug effect <br>in graphic presentation.</p>
+		    </div>
+              </div>
+		  </div>
+		  <div>
+		    <table>
+		      <tr>
+		        <th style="text-align: center;">Database</th>
+			<th style="text-align: center;">Drug</th>
+			<th style="text-align: center;">Dose Response Parameters</th>
+			<th style="text-align: center;">P-value</th>
+		      </tr>
+
+
+          {% if drug_name %}
+		  <tr>
+			<td>CCLE</td>
+			<td>
+                <select id="drug_CCLE" style="width:100px" onclick="show_sub()">
+                {% for i in drug_name %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>IC50</td>
+			<td id="p_ccle">pvalue</td>
+		  </tr>
+          {% else %}
+		  <tr onclick="show_sub_nosign()">
+			<td>CCLE</td>
+            <td>No significant drug effect</td>
+			<td>IC50</td>
+			<td id="p_ccle">\</td>
+		  </tr>
+          {% endif %}
+
+
+
+            {% if drug_name_cgp_ic50 %}
+		      <tr class="clickable">
+			<td>COSMIC</td>
+			<td>
+                <select id="drug_cgp_ic50" style="width:100px" onclick="show_cgp_ic50_sub()">
+                {% for i in drug_name_cgp_ic50 %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>IC50</td>
+			<td id="p_cgp_ic50">pvalue</td>
+		      </tr>
+            {% else %}
+              <tr class="clickable" onclick="show_sub_nosign()">
+			<td>CGP</td>
+            <td>No significant drug effect</td>
+			<td>IC50</td>
+			<td id="p_cgp_ic50">\</td>
+		      </tr>
+            {% endif %}
+
+
+
+            {% if drug_name_ctrp_auc %}
+		      <tr class="clickable">
+			<td>CTRP</td>
+			<td>
+                <select id="drug_ctrp_auc" style="width:100px" onclick="show_ctrp_auc_sub()">
+                {% for i in drug_name_ctrp_auc %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>AUC</td>
+			<td id="p_ctrp_auc">pvalue</td>
+		      </tr>
+            {% else %}
+		      <tr class="clickable" onclick="show_sub_nosign()">
+			<td>CTRP</td>
+            <td>No significant drug effect</td>
+			<td>AUC</td>
+			<td id="p_ctrp_auc">\</td>
+		      </tr>
+            {% endif %}
+
+
+
+
+            {% if drug_name_gdsc1_ic50 %}
+		      <tr class="clickable">
+			<td>GDSC1</td>
+			<td>
+                <select id="drug_gdsc1_ic50" style="width:100px" onclick="show_gdsc1_ic50_sub()">
+                {% for i in drug_name_gdsc1_ic50 %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>IC50</td>
+			<td id="p_gdsc1_ic50">pvalue</td>
+            {% else %}
+		      <tr class="clickable" onclick="show_sub_nosign()">
+			<td>GDSC1</td>
+            <td>No significant drug effect</td>
+			<td>IC50</td>
+			<td id="p_gdsc1_ic50">\</td>
+		      </tr>
+            {% endif %}
+
+
+            {% if drug_name_gdsc2_ic50 %}
+		      <tr class="clickable">
+			<td>GDSC2</td>
+			<td>
+                <select id="drug_gdsc2_ic50" style="width:100px" onclick="show_gdsc2_ic50_sub()">
+                {% for i in drug_name_gdsc2_ic50 %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>IC50</td>
+			<td id="p_gdsc2_ic50">pvalue</td>
+            {% else %}
+		      <tr class="clickable" onclick="show_sub_nosign()">
+			<td>GDSC2</td>
+            <td>No significant drug effect</td>
+			<td>IC50</td>
+			<td id="p_gdsc2_ic50">\</td>
+		      </tr>
+            {% endif %}
+
+            {% if drug_name_gdsc1_auc %}
+		      <tr class="clickable">
+			<td>GDSC1</td>
+			<td>
+                <select id="drug_gdsc1_auc" style="width:100px" onclick="show_gdsc1_auc_sub()">
+                {% for i in drug_name_gdsc1_auc %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>AUC</td>
+			<td id="p_gdsc1_auc">pvalue</td>
+            {% else %}
+		      <tr class="clickable" onclick="show_sub_nosign()">
+			<td>GDSC1</td>
+            <td>No significant drug effect</td>
+			<td>AUC</td>
+			<td id="p_gdsc1_auc">\</td>
+		      </tr>
+            {% endif %}
+
+
+            {% if drug_name_gdsc2_auc %}
+		      <tr class="clickable">
+			<td>GDSC2</td>
+			<td>
+                <select id="drug_gdsc2_auc" style="width:100px" onclick="show_gdsc2_auc_sub()">
+                {% for i in drug_name_gdsc2_auc %}
+                    <option>{{ i }}</option>
+                {% endfor %}
+                </select>
+            </td>
+			<td>AUC</td>
+			<td id="p_gdsc2_auc">pvalue</td>
+            {% else %}
+		      <tr class="clickable" onclick="show_sub_nosign()">
+			<td>GDSC2</td>
+            <td>No significant drug effect</td>
+			<td>AUC</td>
+			<td id="p_gdsc2_auc">\</td>
+		      </tr>
+            {% endif %}
+
+
+		    </table>
+		  </div>
+		</div>
+	      </div>
+	    </div>
+                </div>
+            </div>
+</div>
+<script>
+
+// ccle drug effect select
+
+var change_group_1=[{% for i in change_group %}{{ i }},{% endfor %}];
+var unchange_group_1=[{% for i in unchange_group %}{{ i }},{% endfor %}];
+var drug_name_1=[{% for i in drug_name %}"{{ i }}",{% endfor %}];//注意双引号，哇，贼变态
+
+
+
+    function show_sub(){
+        var obj = document.getElementById('drug_CCLE');
+        var index = obj.selectedIndex;
+        index_ccle = index;
+
+
+var data = prepareBoxplotData([
+
+change_group_1[index],
+unchange_group_1[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_1[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'IC50',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_1=[{% for i in p_1 %}{{ i }},{% endfor %}];
+
+var x=document.getElementById("p_ccle");  // 找到元素
+x.innerHTML=p_1[index_ccle];
+
+myChart.setOption(option);
+
+    };
+
+
+// gdsc1_ic50 drug effect select
+
+var change_group_gdsc1_ic50=[{% for h in change_group_gdsc1_ic50 %}{{ h }},{% endfor %}];
+var unchange_group_gdsc1_ic50=[{% for h in unchange_group_gdsc1_ic50 %}{{ h }},{% endfor %}];
+var drug_name_gdsc1_ic50=[{% for h in drug_name_gdsc1_ic50 %}"{{ h }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_gdsc1_ic50_sub() {
+        var obj = document.getElementById('drug_gdsc1_ic50');
+        var index = obj.selectedIndex;
+        index_gdsc1_ic50 = index
+
+
+var data = prepareBoxplotData([
+
+change_group_gdsc1_ic50[index],
+unchange_group_gdsc1_ic50[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_gdsc1_ic50[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'IC50',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_4=[{% for i in p_4 %}{{ i }},{% endfor %}];
+
+var x=document.getElementById("p_gdsc1_ic50");  // 找到元素
+x.innerHTML=p_4[index_gdsc1_ic50];
+myChart.setOption(option)
+    };
+
+
+// gdsc2_ic50 drug effect select
+
+var change_group_gdsc2_ic50=[{% for h in change_group_gdsc2_ic50 %}{{ h }},{% endfor %}];
+var unchange_group_gdsc2_ic50=[{% for h in unchange_group_gdsc2_ic50 %}{{ h }},{% endfor %}];
+var drug_name_gdsc2_ic50=[{% for h in drug_name_gdsc2_ic50 %}"{{ h }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_gdsc2_ic50_sub() {
+        var obj = document.getElementById('drug_gdsc2_ic50');
+        var index = obj.selectedIndex;
+        index_gdsc2_ic50 = index
+
+
+var data = prepareBoxplotData([
+
+change_group_gdsc2_ic50[index],
+unchange_group_gdsc2_ic50[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_gdsc2_ic50[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'IC50',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_6=[{% for i in p_6 %}{{ i }},{% endfor %}];
+
+var x=document.getElementById("p_gdsc2_ic50");  // 找到元素
+x.innerHTML=p_6[index_gdsc2_ic50];
+myChart.setOption(option)
+    };
+
+// gdsc1_auc drug effect select
+
+var change_group_gdsc1_auc=[{% for h in change_group_gdsc1_auc %}{{ h }},{% endfor %}];
+var unchange_group_gdsc1_auc=[{% for h in unchange_group_gdsc1_auc %}{{ h }},{% endfor %}];
+var drug_name_gdsc1_auc=[{% for h in drug_name_gdsc1_auc %}"{{ h }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_gdsc1_auc_sub() {
+        var obj = document.getElementById('drug_gdsc1_auc');
+        var index = obj.selectedIndex;
+        index_gdsc1_auc = index
+
+
+var data = prepareBoxplotData([
+
+change_group_gdsc1_auc[index],
+unchange_group_gdsc1_auc[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_gdsc1_auc[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'AUC',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_5=[{% for i in p_5 %}{{ i }},{% endfor %}];
+
+var x=document.getElementById("p_gdsc1_auc");  // 找到元素
+x.innerHTML=p_5[index_gdsc1_auc];
+myChart.setOption(option)
+    };
+
+
+// gdsc2_auc drug effect select
+
+var change_group_gdsc2_auc=[{% for h in change_group_gdsc2_auc %}{{ h }},{% endfor %}];
+var unchange_group_gdsc2_auc=[{% for h in unchange_group_gdsc2_auc %}{{ h }},{% endfor %}];
+var drug_name_gdsc2_auc=[{% for h in drug_name_gdsc2_auc %}"{{ h }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_gdsc2_auc_sub() {
+        var obj = document.getElementById('drug_gdsc2_auc');
+        var index = obj.selectedIndex;
+        index_gdsc2_auc = index
+
+
+var data = prepareBoxplotData([
+
+change_group_gdsc2_auc[index],
+unchange_group_gdsc2_auc[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_gdsc2_auc[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'AUC',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_7=[{% for i in p_7 %}{{ i }},{% endfor %}];
+
+var x=document.getElementById("p_gdsc2_auc");  // 找到元素
+x.innerHTML=p_7[index_gdsc2_auc];
+myChart.setOption(option)
+    };
+
+// ctrp_auc drug effect select
+
+var change_group_ctrp_auc=[{% for r in change_group_ctrp_auc %}{{ r }},{% endfor %}];
+var unchange_group_ctrp_auc=[{% for r in unchange_group_ctrp_auc %}{{ r }},{% endfor %}];
+var drug_name_ctrp_auc=[{% for r in drug_name_ctrp_auc %}"{{ r }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_ctrp_auc_sub() {
+        var obj = document.getElementById('drug_ctrp_auc');
+        var index = obj.selectedIndex;
+        index_ctrp_auc_sub = index;
+
+
+
+var data = prepareBoxplotData([
+
+change_group_ctrp_auc[index],
+unchange_group_ctrp_auc[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_ctrp_auc[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'AUC',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_3=[{% for i in p_3 %}{{ i }},{% endfor %}];
+
+var x = document.getElementById("p_ctrp_auc");  // 找到元素
+x.innerHTML=p_3[index_ctrp_auc_sub];
+myChart.setOption(option)
+    };
+
+
+// cgp_auc drug effect select
+
+var change_group_cgp_ic50=[{% for r in change_group_cgp_ic50 %}{{ r }},{% endfor %}];
+var unchange_group_cgp_ic50=[{% for r in unchange_group_cgp_ic50 %}{{ r }},{% endfor %}];
+var drug_name_cgp_ic50=[{% for r in drug_name_cgp_ic50 %}"{{ r }}",{% endfor %}];//注意双引号，哇，贼变态
+
+    function show_cgp_ic50_sub() {
+        var obj = document.getElementById('drug_cgp_ic50');
+        var index = obj.selectedIndex;
+        index_cgp_ic50_sub = index;
+
+
+
+var data = prepareBoxplotData([
+
+change_group_cgp_ic50[index],
+unchange_group_cgp_ic50[index],
+
+]);
+
+option = {
+    title: [
+        {
+            text: drug_name_cgp_ic50[index],
+            left: 'center',
+        },
+
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: function(value,index) {
+              return ["{{ gene2_info.symbol }}","{{ gene2_info.symbol }}(WT)"][value]
+            }
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'IC50',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: data.boxData,
+
+        },
+        {
+            name: 'outlier',
+            type: 'scatter',
+            data: data.outliers
+        }
+    ]
+};
+var myChart = echarts.init(document.getElementById('box_container'));
+var p_2=[{% for i in p_2 %}{{ i }},{% endfor %}];
+
+var x = document.getElementById("p_cgp_ic50");  // 找到元素
+x.innerHTML=p_2[index_cgp_ic50_sub];
+myChart.setOption(option)
+    };
+
+
+
+
+</script>
+
+<script>
+      $(document).ready(function(){
+  $("tr.clickable").click(function(){
+    $("#second_box").children("h2").children("small").html(" in "+$(this).children("td")[0].innerHTML);
+
+  });
+
+
+
+});
+</script>

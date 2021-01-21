@@ -1,0 +1,422 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <link rel="icon" href="/static/CGIdb2/static/image/logo.ico" type="image/x-icon">
+  <title>
+    Download Page -- Drug
+  </title>
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/left-side-menu.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/dataTool.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.freezeheader.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/statistic_svg_anno.js" type="module"></script>
+    <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+
+    {% load staticfiles %}
+
+
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/reset.css">
+    <link rel="stylesheet" href="/static/CGIdb2/static/css/style.css">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+<style>
+            .tool_icon{
+width: 20px;
+    height: 20px;
+    margin-bottom: -2px;
+       fill: currentColor;
+       overflow: hidden;
+        cursor:pointer;
+        margin-left:4px;
+            fill:#595959;
+    }
+.svg_anno{
+				position: absolute;
+				color: whitesmoke;
+				font-size: 15px;
+				padding: 8px 12px;
+				border-radius: 4px;
+				background-color: rgba(50, 50, 50, .9);
+				z-index: 1000;
+				display: none;
+				white-space: nowrap;
+				line-height: 20px;
+}
+.home-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+
+.statistic_main_body {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top:10px;
+    margin-bottom:10px;
+    background: #fff;
+    z-index: 20;
+    flex-wrap: wrap;
+    padding: 24px;
+}
+
+.statistic_gene_table thead th { position: sticky; top: 0; }
+.statistic_gene_table tr { height:40px;vertical-align: middle; }
+.main-body-min {
+    float:left;
+    width:calc(100% - 60px)
+}
+.main-body-max {
+    float:left;
+    width:calc(100% - 240px)
+}
+.contact_size {
+    font:16px "微软雅黑","宋体","Arial Narrow",HELVETICA;
+}
+
+
+::-webkit-scrollbar{width:10px;background-color:#e1e5ea;border-radius:8px}
+::-webkit-scrollbar-thumb{background-color:#c3cad4;border-radius:10px;border:2px solid #e1e5ea;}
+::-webkit-scrollbar-thumb:hover{background-color:#aab1bc;}
+
+.count_title{
+    float:left;
+    font-size: 30px;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 0;
+    text-align: center;
+}
+    .percent_outer{
+        padding-right: 4.75em;
+        margin-right: -4.75em;
+        display: inline-block;
+        width: 100%;
+        padding-left:20px;
+    }
+    .percent_inner{
+        display: inline-block;
+        width: 100%;
+        background-color: #f5f5f5;
+        border-radius: 100px;
+        vertical-align: middle;
+    }
+    .percent_bg{
+        border-radius: 100px;
+        background-color: #1890ff;
+        transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;
+        position: relative;
+    }
+    .ant-progress-text{
+        float: right;
+    }
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+.home_title {
+    float:left;
+    width:100%;
+    height:40px;
+    font-size:28px;
+    font-weight:500;
+    color:rgba(0,0,0,.65);
+    margin-left: 15px;
+}
+    </style>
+</head>
+<body style="min-width:1500px;min-height:730px;color: #000000;    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.5;    background-color: #E2E2E2;">
+
+
+
+
+<div class="left-side-menu" style="position:fixed;float:left;height:calc(100%);z-index:999">
+    <div class="lsm-expand-btn">
+        <div class="lsm-mini-btn">
+            <label style="display: block;">
+                <input type="checkbox" checked="checked">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="30" />
+                    <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                    <path class="line--2" d="M0 50h80" />
+                    <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                </svg>
+
+            </label>
+
+
+<!--        <input type="text"/>-->
+        </div>
+
+    </div>
+
+
+
+    <div id="lsm-container" class="lsm-container">
+        <div class="lsm-scroll" >
+            <div class="lsm-sidebar">
+                <ul>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/"><i class="my-icon lsm-sidebar-icon icon-zhuye"></i><span>HOME</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 1.5%">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/search"><i class="my-icon lsm-sidebar-icon icon-chaxun"></i><span>SEARCH</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-tongji"></i><span>DOWNLOAD</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                            <li><a href="/CGIdb2/statistic_gene"><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;margin-left: -4px;"></i><span>Tissue</span></a></li>
+                            <li><a href="/CGIdb2/statistic_source"><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;"></i><span>Source</span></a></li>
+                            <li><a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-jiaonang"></i><span>Drug</span></a></li>
+                            <li><a href="/CGIdb2/statistic_com_path"><i class="my-icon lsm-sidebar-icon icon-icon_pathwayx-copy"></i><span>Complex/Pathway</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/FAQ"><i class="my-icon lsm-sidebar-icon icon-wenhao"></i><span>FAQ</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/contact"><i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i><span>CONTACT US</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div  id="main-body" class="main-body" style="padding-left:20px;float:left;margin-left:240px;width:calc(100% - 260px);">
+
+    <div class="home-top">
+        <div class="home_title" style="float:left">
+    <div style="float:left;width:37px;height:42.5px">
+    <img src="/static/CGIdb2/static/image/logo.gif" style="width:100%; height:100%;">
+    </div>
+    <div style="float:left;padding-left:12px;line-height: 1.3">
+    <p><span style="color:#5687bd; font-size:35px">C</span>ancer
+        <span style="color:#5687bd; font-size:35px">G</span>enetic
+        <span style="color:#5687bd; font-size:35px">I</span>nteraction
+        <span style="color:#5687bd; font-size:35px">d</span>ata<span style="color:#5687bd; font-size:35px">b</span>ase
+        <span style="font-size:20px">2.0</span>
+    </p>
+    </div>
+</div>
+    </div>
+
+
+<div class="statistic_main_body">
+    <div class="statistic_title" style="width: 100%;">
+    <div class="counter col_fourth" style="width:30%;padding-left:12px; padding-right:12px;float:left;margin-left:20%;">
+<i class="my-icon lsm-sidebar-icon icon-jiaonang1" style="float: left; font-size: 30px; padding-top: 8px; padding-right: 15px;"></i>
+       <div class="count_title" style="margin-right:10px">Drug:</div>
+      <div class="timer count_title" id="count-number" data-to="1109" data-speed="800"></div>
+    </div>
+
+    <div class="counter col_fourth" style="width:30%;padding-left:12px; padding-right:12px;float:left;margin-right:20%;">
+        <i class="my-icon lsm-sidebar-icon icon-badianyaopinzhuizong1" style="float: left; font-size: 33px;padding-top: 11px;padding-right: 15px;"></i>
+      <div class="count_title" style="margin-right:10px">Drug-Target:</div>
+      <div class="timer count_title" id="count-number" data-to="4127" data-speed="800" ></div>
+    </div>
+
+
+            <script type="text/javascript" src="/static/CGIdb2/static/js/count.js"></script>
+        </div>
+    <div class="statistic_body_title" style="width:100%;float:left; border-bottom: 1px solid #e9e9e9; padding: 20px 10px 6px;margin-bottom: 10px;font-size: 18px;font-weight: 700;">
+        Category
+        <span>
+            <i>
+                <a  href="/CGIdb2/data/drug_effect_download/">
+                    <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_10()" onmouseout="outHide_10()">
+                        <use xlink:href="#icon-xiazai"></use>
+                    </svg>
+                </a>
+            </i>
+        </span>
+        </div>
+    <div class="statistic_gene_table" style="float:left;width:calc(100% - 500px);overflow-y:auto;height:270px">
+        <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px;background-color: #F7F7F7; width:60%">Database</th>
+		      <th style="height:40px;background-color: #F7F7F7;text-align:right">Drug</th>
+              <th style="height:40px;background-color: #F7F7F7;text-align:right">Percent</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td style="height:20px">CTRP</td>
+		      <td style="text-align:right;height:20px">481</td>
+		      <td style="text-align:right;height:20px">43.37%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">GDSC1</td>
+		      <td style="text-align:right;height:20px">304</td>
+		      <td style="text-align:right;height:20px">27.41%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">GDSC2</td>
+		      <td style="text-align:right;height:20px">169</td>
+		      <td style="text-align:right;height:20px">15.31%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">CGP</td>
+		      <td style="text-align:right;height:20px">131</td>
+		      <td style="text-align:right;height:20px">11.87%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">CCLE</td>
+		      <td style="text-align:right;height:20px">24</td>
+		      <td style="text-align:right;height:20px">2.17%</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+
+        <div class="statistic_gene_pie" style="float:left">
+            <div  id="main-body-1" class="main-body-1" style="height:270px;width:500px">
+            </div>
+        </div>
+
+
+
+
+    <div class="statistic_body_title" style="width:100%;float:left; border-bottom: 1px solid #e9e9e9; padding: 20px 10px 6px;margin-bottom: 10px;font-size: 18px;font-weight: 700;">
+        Category
+        </div>
+    <div class="statistic_gene_table" style="float:left;width:calc(100% - 500px);overflow-y:auto;height:270px">
+        <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px;background-color: #F7F7F7; width:50%">Database</th>
+		      <th style="height:40px;background-color: #F7F7F7;text-align:right">Drug-Target</th>
+              <th style="height:40px;background-color: #F7F7F7;text-align:right">Percent</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td style="height:20px">CGP</td>
+		      <td style="text-align:right;height:20px">1300</td>
+		      <td style="text-align:right;height:20px">31.5%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">GDSC1</td>
+		      <td style="text-align:right;height:20px">1173</td>
+		      <td style="text-align:right;height:20px">28.42%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">CTRP</td>
+		      <td style="text-align:right;height:20px">731</td>
+		      <td style="text-align:right;height:20px">17.71%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">GDSC2</td>
+		      <td style="text-align:right;height:20px">725</td>
+		      <td style="text-align:right;height:20px">17.57%</td>
+		    </tr>
+		    <tr>
+		      <td style="height:20px">CCLE</td>
+		      <td style="text-align:right;height:20px">198</td>
+		      <td style="text-align:right;height:20px">4.8%</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+
+        <div class="statistic_gene_pie" style="float:left">
+            <div  id="main-body-2" class="main-body-2" style="height:270px;width:500px">
+            </div>
+        </div>
+
+
+
+
+    </div>
+        <div class="home-bottom"></div>
+</div>
+            <div id="download_click" class="svg_anno"></div>
+            <div id="download_click_2" class="svg_anno"></div>
+            <div id="download_click_3" class="svg_anno"></div>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-body-1'));
+
+        myChart.setOption({
+            tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: 'Database',
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value:481, name:'CTRP'},
+                        {value:304, name:'GDSC1'},
+                        {value:169, name:'GDSC2'},
+                        {value:131, name:'CGP'},
+                        {value:24, name:'CCLE'},
+                    ]
+                }
+            ]
+        })
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main-body-2'));
+
+        myChart.setOption({
+            tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    name: 'Database',
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value:1300, name:'CGP'},
+                        {value:1173, name:'GDSC1'},
+                        {value:731, name:'CTRP'},
+                        {value:725, name:'GDSC2'},
+                        {value:198, name:'CCLE'},
+                    ]
+                }
+            ]
+        })
+    </script>
+  </body>
+
+
+</html>
+

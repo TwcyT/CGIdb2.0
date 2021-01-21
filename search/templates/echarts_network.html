@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    var myChart = document.getElementById('main');
+    var myChart = echarts.init(myChart)
+    var categories = [];
+
+        categories[0] = {
+            name: 'Searching Node'
+        },
+        categories[1] = {
+            name: 'SL'
+        },
+        categories[2] = {
+            name: 'SV'
+        }
+    option = {
+            backgroundColor: '#CCCCCC',
+        // 图的标题
+        title: {
+            text: 'Pairs Network'
+        },
+        // 提示框的配置
+        tooltip: {
+            formatter: function (x) {
+                return x.data.des;
+            }
+        },
+        grid: {
+  // 间距是 根据x、y轴计算的；假如都是0，x、y轴的label汉字就隐藏掉了。
+  left: 0, // 默认10%，给24就挺合适的。
+  top: 0, // 默认60
+  right: 0, // 默认10%
+  bottom: 0, // 默认60
+
+  width:'100%', // grid 组件的宽度。默认自适应。
+  height:'100%',
+
+  // containLabel:true, // grid 区域是否包含坐标轴的刻度标签。(如果true的时候，上下左右可以为0了)
+
+  // show:true, // 是否显示直角坐标系网格。是否显示grid，grid:show后，下面的一些参数生效。
+  // backgroundColor:'#ccac62',
+  // borderColor:"#000",
+
+  tooltip:{}, // 本坐标系特定的 tooltip 设定。(可以有多个grid)
+},
+        // 工具箱
+        toolbox: {
+            // 显示工具箱
+            show: true,
+            feature: {
+                mark: {
+                    show: true
+                },
+                // 还原
+                restore: {
+                    show: true
+                },
+                // 保存为图片
+                saveAsImage: {
+                    show: true
+                },
+                dataView: {
+                    show: true
+                }
+            }
+        },
+        legend: [{
+            // selectedMode: 'single',
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
+        series: [{
+            type: 'graph', // 类型:关系图
+            layout: 'force', //图的布局，类型为力导图
+            symbolSize: 20, // 调整节点的大小
+            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+            edgeSymbol: ['circle', 'circle'],
+            edgeSymbolSize: [2, 2],
+            edgeLabel: {
+                normal: {
+                    textStyle: {
+                        fontSize: 10
+                    }
+                }
+            },
+            force: {
+                repulsion: 100,
+
+                layoutAnimation: false
+            },
+            draggable: true,
+            lineStyle: {
+                normal: {
+                    width: 1,
+                    color: '#4b565b',
+                }
+            },
+            edgeLabel: {
+                normal: {
+                    show: false,
+
+                }
+            },
+            label: {
+                normal: {
+                    show: true,
+                    textStyle: {},
+                    fontSize:10
+                }
+            },
+            // 数据
+            data: JSON.parse('{% autoescape off %}{{ node }}{% endautoescape %}'),
+            links: JSON.parse('{% autoescape off %}{{ links }}{% endautoescape %}'),
+            categories: categories,
+        }]
+    };
+    myChart.setOption(option);
+
+</script>
+</html>

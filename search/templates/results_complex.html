@@ -1,0 +1,1051 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="/static/CGIdb2/static/css/iconfont.css">
+
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/jquery.freezeheader.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/left-side-menu.js"></script>
+    {% load staticfiles %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.0/echarts.min.js" integrity="sha512-ZRdjJAYP8Kij8Lkln9uiGj0jIrMDLAALm1ZB2b3VfV9XJ0nR4zbJmHKB42/A4tgMlZS4DTPnSAmcYRoS0dginA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/dataTool.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/echarts-wordcloud.js"></script>
+    <script  type="text/javascript" src="/static/CGIdb2/static/js/iconfont.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/vis.min.js"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/vis-network.min.js"></script>
+    <script  type="text/css" src="/static/CGIdb2/static/css/vis.min.css"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/canvas2image.js" type="module"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/base64.js" type="module"></script>
+    <script type="text/javascript" src="/static/CGIdb2/static/js/results_svg_anno.js" type="module"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        table {
+            width:100%;
+            text-align:center;
+        }
+        table thead{
+            border-bottom:0px solid #CCCCCC;
+        }
+        .odd{
+            background:#fafafa;
+        }
+        .even{
+            background:#FFFFFF;
+        }
+    </style>
+
+<style>
+    .tablesorter tr { height:40px;vertical-align: middle; }
+    .tablesorter th { height:40px;text-align: center; }
+
+.home-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+
+.main-body-1 {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: calc(100% - 116px);
+    margin-top:10px;
+    margin-bottom:10px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+    flex-wrap: wrap;
+}
+
+
+.main-body-min {
+    float:left;
+    width:calc(100% - 60px)
+}
+.main-body-max {
+    float:left;
+    width:calc(100% - 240px)
+}
+.contact_size {
+    font:16px "微软雅黑","宋体","Arial Narrow",HELVETICA;
+}
+.table_results          { overflow-y: auto; height: 100px; }
+.table_results thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background: #eeeeee; }
+    </style>
+    <style>
+        body,td,th {font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif}
+    div.showbox {
+        box-sizing:border-box;
+-moz-box-sizing:border-box; /* Firefox */
+-webkit-box-sizing:border-box; /* Safari */
+        border: 1px solid #e9e9e9;
+float:left;
+    }
+    div.tool_box {width:100%;}
+    div.table_results {width:35%;}
+    div.pair_table_detail {width:35%;}
+    div.network_results {width:65%;}
+    </style>
+<style type="text/css">
+
+    .tool_icon{
+       width: 1.7em; height: 1.7em;
+       fill: currentColor;
+       overflow: hidden;
+        cursor:pointer;
+        display:inline-block;
+        margin-left:16px;
+        text-align: center;
+        vertical-align: middle;
+    }
+#heat_gene_img{
+    position:absolute;
+    display:block;
+    overflow:auto;
+    transform: translateY(-100%);
+    transition: 0.5s;
+    z-index:900;
+    height:100%;
+
+}
+#table_detail{
+    position:absolute;
+    display:block;
+    overflow:auto;
+    transform: translateY(-100%);
+    transition: 0.5s;
+    z-index:900;
+    height:100%;
+
+}
+#pair_table_detail{
+    position:absolute;
+    display:block;
+    overflow:auto;
+    transform: translateX(0);
+    transition: 0.5s;
+    height:100%;
+
+}
+#pair_table_detail_click:hover{
+    background:#000;
+    opacity:0.5;
+    color:#fff;
+    display:block;
+
+}
+
+#Node_add_table{
+    display: none;
+    position: absolute;
+    top: 350px;
+    right: 430px;
+    z-index: 999;
+    width: 300px;
+    height: 150px;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #8c8989;
+    padding: 10px;
+    text-align: center;
+
+}
+</style>
+
+    <style>
+.svg_anno{
+				position: absolute;
+				color: whitesmoke;
+				font-size: 15px;
+				padding: 8px 12px;
+				border-radius: 4px;
+				background-color: rgba(50, 50, 50, .9);
+				z-index: 1000;
+				display: none;
+				white-space: nowrap;
+				line-height: 20px;
+}
+
+    </style>
+
+
+
+    <!--弹窗 -->
+        <style>
+            .black_overlay{
+                display: none;
+                position: fixed;
+                top: 0%;
+                left: 0%;
+                width: 100%;
+                height: calc(100%);
+                background-color: #c8c8c8;
+                z-index:1001;
+                -moz-opacity: 0.8;
+                opacity:.80;
+                filter: alpha(opacity=78);
+            }
+            .drug_effect_window {
+                display: none;
+                position: absolute;
+                top: 5%;
+                left: 15%;
+                width: 70%;
+                height: 90%;
+                padding: 10px;
+                z-index:9999;
+                overflow: auto;
+                background-color: #fff;
+                border: 0;
+                border-radius: 4px;
+                background-clip: padding-box;
+                box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            }
+            .drug_effect_window_header {
+                padding: 16px 24px;
+                border-radius: 4px 4px 0 0;
+                background: #fff;
+                color: rgba(0,0,0,.65);
+                border-bottom: 1px solid #e8e8e8;
+            }
+            .drug_effect_window_title {
+                margin: 0;
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 500;
+                color: rgba(0,0,0,.85);
+            }
+            #drug_effect_window_body{
+                padding: 24px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .drug_effect_window_body_title{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                word-wrap: break-word;
+                word-break: break-all;
+                margin-bottom: 20px;
+            }
+            .drug_effect_window_x{
+                cursor: pointer;
+                border: 0;
+                background: transparent;
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 10;
+                font-weight: 700;
+                line-height: 1;
+                text-decoration: none;
+                transition: color .3s;
+                color: rgba(0,0,0,.45);
+                outline: 0;
+                padding: 0;
+            }
+            .gene_info_window {
+                display: none;
+                position: absolute;
+                top: 5%;
+                left: 15%;
+                width: 70%;
+                height: 90%;
+                padding: 10px;
+                z-index:9999;
+                overflow: auto;
+                background-color: #fff;
+                border: 0;
+                border-radius: 4px;
+                background-clip: padding-box;
+                box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            }
+            .gene_info_window_header {
+                padding: 16px 24px;
+                border-radius: 4px 4px 0 0;
+                background: #fff;
+                color: rgba(0,0,0,.65);
+                border-bottom: 1px solid #e8e8e8;
+            }
+            .gene_info_window_title {
+                margin: 0;
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 500;
+                color: rgba(0,0,0,.85);
+            }
+            #gene_info_window_body{
+                padding: 24px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .gene_info_window_body_title{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                word-wrap: break-word;
+                word-break: break-all;
+                margin-bottom: 20px;
+            }
+            .gene_info_window_x{
+                cursor: pointer;
+                border: 0;
+                background: transparent;
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 10;
+                font-weight: 700;
+                line-height: 1;
+                text-decoration: none;
+                transition: color .3s;
+                color: rgba(0,0,0,.45);
+                outline: 0;
+                padding: 0;
+            }
+.home-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 4px 4px 40px 0 rgba(0,0,0,.05);
+}
+        </style>
+        <script type="text/javascript">
+            function popWin(){
+                document.getElementById('light').style.display='block';
+                document.getElementById('fade').style.display='block'
+            }
+
+            function closeWin() {
+                document.getElementById('light').style.display = 'none';
+                document.getElementById('fade').style.display = 'none';
+            }
+        </script>
+
+        <script type="text/javascript">
+            function popWin_1(){
+                document.getElementById('light_1').style.display='block';
+                document.getElementById('fade_1').style.display='block'
+            }
+
+            function closeWin_1() {
+                document.getElementById('light_1').style.display = 'none';
+                document.getElementById('fade_1').style.display = 'none';
+            }
+        </script>
+
+</head>
+<body style="min-width:1500px;color: #000000;    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.5;    background-color: #E2E2E2;">
+
+<div class="container_1">
+
+
+<div class="left-side-menu" style="position:fixed;float:left;height:calc(100%);z-index:999">
+    <div class="lsm-expand-btn">
+        <div class="lsm-mini-btn">
+            <label style="display: block;">
+                <input type="checkbox" checked="checked">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="30" />
+                    <path class="line--1" d="M0 40h62c18 0 18-20-17 5L31 55" />
+                    <path class="line--2" d="M0 50h80" />
+                    <path class="line--3" d="M0 60h62c18 0 18 20-17-5L31 45" />
+                </svg>
+
+            </label>
+
+
+<!--        <input type="text"/>-->
+        </div>
+
+    </div>
+
+
+
+    <div class="lsm-container">
+        <div class="lsm-scroll" >
+            <div class="lsm-sidebar">
+                <ul>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/"><i class="my-icon lsm-sidebar-icon icon-zhuye"></i><span>HOME</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 1.5%">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/search"><i class="my-icon lsm-sidebar-icon icon-chaxun"></i><span>SEARCH</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon-tongji"></i><span>DOWNLOAD</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                            <li><a href="/CGIdb2/statistic_gene"><i class="my-icon lsm-sidebar-icon icon-renti" style="font-size: 25px;margin-left: -4px;"></i><span>Tissue</span></a></li>
+                            <li><a href="/CGIdb2/statistic_source"><i class="my-icon lsm-sidebar-icon icon-source" style="font-size: 18px;"></i><span>Source</span></a></li>
+                            <li><a href="/CGIdb2/statistic_drug"><i class="my-icon lsm-sidebar-icon icon-jiaonang"></i><span>Drug</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/FAQ"><i class="my-icon lsm-sidebar-icon icon-wenhao"></i><span>FAQ</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="/CGIdb2/contact"><i class="my-icon lsm-sidebar-icon icon-xinfeng-copy"></i><span>CONTACT US</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <ul style="padding-left: 20px">
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div  id="main-body" class="main-body" style="padding-left:20px;float:left;margin-left:240px;width:calc(100% - 260px);">
+
+    <div class="home-top"></div>
+
+<div  class="main-body-1" style="padding:24px">
+
+<div class="box" id="box" style="width:100%;height:100%">
+<div class="tool_box showbox" id="tool_box" style="line-height:40px;z-index:999 ">
+        <i>
+            {% for i in gene_info %}
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_7()" onmouseout="outHide_7()" onclick="popWin_1()">
+                <use xlink:href="#icon-shiliangzhinengduixiang_fuzhi"></use>
+            </svg>
+            {% endfor %}
+        </i>
+        <i>
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_1()" onmouseout="outHide_1()" onclick="pair_table_detail_click()">
+                <use xlink:href="#icon-node"></use>
+            </svg>
+        </i>
+         <i >
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_2()" onmouseout="outHide_2()" onclick="table_detail_click()">
+                <use xlink:href="#icon-detail"></use>
+            </svg>
+        </i>
+        <i >
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_3()" onmouseout="outHide_3()" onclick="node_add()">
+                <use xlink:href="#icon-jiahao"></use>
+            </svg>
+        </i>
+        <i >
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_4()" onmouseout="outHide_4()" onclick="edge_add()">
+                <use xlink:href="#icon-edge"></use>
+            </svg>
+        </i>
+        <i >
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_5()" onmouseout="outHide_5()" id="savenetwork" onclick="">
+                <use xlink:href="#icon-baocun"></use>
+            </svg>
+        </i>
+        <i >
+            <svg class="tool_icon" aria-hidden="true" onmouseover="overShow_6()" onmouseout="outHide_6()" id="hot_gene" onclick="hot_gene_canvas()">
+                <use xlink:href="#icon-hot"></use>
+            </svg>
+        </i>
+
+    <span><p style="float:right;width:110px; height:24px;margin:0;align:center;"><b>Searching Gene</b></p><img style="float:right; width:24px; height:24px;margin-top:9px;margin-right:4px;" src="/static/CGIdb2/static/image/Searching_gene.gif"></span>
+<span><p style="float:right;width:70px; height:24px;margin:0;align:center;"><b>No Type</b></p><img style="float:right; width:24px; height:24px;margin-top:9px;margin-right:4px;" src="/static/CGIdb2/static/image/SL_SV_gene.gif"></span>
+    <span><p style="float:right;width:35px; height:24px;margin:0;align:center;"><b>SL</b></p><img style="float:right; width:24px; height:24px;margin-top:9px;margin-right:4px;" src="/static/CGIdb2/static/image/SL_gene.gif"></span>
+    <span><p style="float:right;width:35px; height:24px;margin:0;align:center;"><b>SV</b></p><img style="float:right; width:24px; height:24px;margin-top:9px;margin-right:4px;" src="/static/CGIdb2/static/image/SV_gene.gif"></span>
+
+
+
+</div>
+<div class="show_box showbox" style="position:relative;height:calc(100% - 40px);width:100%;overflow: hidden;">
+            <div id="table_detail" class="table_detail table_detail_off" style="width:100%">
+            <table id="pair_table" class="tablesorter table table-hover">
+		  <thead>
+		    <tr>
+		      <th style="height:40px">Type</th>
+		      <th style="height:40px">Target</th>
+              <th style="height:40px">Partner</th>
+              <th style="height:40px">Tissue</th>
+              <th style="height:40px">Confidence Score</th>
+              <th style="height:40px">Source</th>
+              <th style="height:40px">Drug Effect</th>
+
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for pair in pairs_info_detail %}
+		    <tr>
+		      <td style="height:20px">{{ pair.type }}</td>
+		      <td style="height:20px">{{ pair.gene1_symbol }}</td>
+		      <td style="height:20px">{{ pair.gene2_symbol }}</td>
+		      <td style="height:20px">{{ pair.tissue }}</td>
+		      <td style="height:20px">{{ pair.score }}</td>
+		      <td style="height:20px">{{ pair.source }}</td>
+		      <td style="height:20px">
+                  <i>
+            <svg class="tool_icon" aria-hidden="true" id="drug_effect_detail" onclick="popWin();var dir = '/CGIdb2/drug_effect/'; var Gene1ID = {{ pair.gene1_id }}; var Gene2ID = {{ pair.gene2_id }};var tissue = '{{ pair.tissue }}'; var url = dir.concat(Gene1ID,'/',Gene2ID,'/',tissue);loading();a=$.ajax({url:url,success:function(){$('#drug_effect_window_body').html(a.responseText)}})">
+                <use xlink:href="#icon-eye"></use>
+            </svg>
+                  </i>
+
+              </td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+            </div>
+
+<div id="heat_gene_img" class="heat_gene_img heat_gene_img_off" style="width: 100%;height:100%;">
+    <div id="heat_gene_img_echarts" style="width: 100%;height:100%;background-color: #fff;">
+    </div>
+            </div>
+
+
+
+
+
+<div class="table_results showbox" style="float:left;overflow:auto; height:100%;">
+<div id="pair_table_detail" class="pair_table_detail pair_table_detail_on" >
+    <table id="pair_table" class="tablesorter table table-hover" style="transform: translateX(-0.4%);">
+		  <thead>
+		    <tr>
+		      <th style="height:40px">Type</th>
+		      <th style="height:40px">Gene1 Symobol</th>
+		      <th style="height:40px">Gene2 Symobol</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for pair in pairs_info %}
+		    <tr>
+		      <td style="height:20px">{{ pair.type }}</td>
+		      <td style="height:20px">{{ pair.gene1_symbol }}</td>
+		      <td style="height:20px">{{ pair.gene2_symbol }}</td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+</div>
+</div>
+<div class="network_results showbox" style=" float:right;height:100%;">
+    <div id="main" style="width: 100%;height:100%;"></div>
+
+</div>
+</div>
+</div>
+
+
+<div id="Node_add_table">
+
+  <span id="operation">Add Node</span> <br>
+  <table style="margin:auto;"><tbody><tr style="background: #FFFFFF;">
+    <td>Name</td><td><input id="node-id" style="width:100%"></td>
+  </tr>
+    <tr style="background: #FFFFFF;">
+      <td>Type</td>
+        <td>
+        <select id="node-type" style="width:100%" >
+  <option value ="SL">SL</option>
+  <option value ="SV">SV</option>
+  <option value ="none">No type</option>
+</select>
+    </td>
+    </tr></tbody></table>
+  <input type="button" value="Save" id="saveButton" onclick="js_node_add()">
+  <input type="button" value="Cancel" id="cancelButton" onclick="node_add_cancel()">
+
+
+</div>
+</div>
+    <div class="home-bottom"></div>
+        <div id="light" class="drug_effect_window">
+            <button class="drug_effect_window_x" style="float: right;">
+            <i>
+            <svg class="tool_icon" aria-hidden="true" onclick = "closeWin();">
+                <use xlink:href="#icon-cuowu"></use>
+            </svg>
+            </i>
+            </button>
+            <div class="drug_effect_window_header">
+                <div class="drug_effect_window_title">
+                    Drug Effect
+                </div>
+            </div>
+            <div id="drug_effect_window_body">
+
+            </div>
+        </div>
+        <div id="fade" class="black_overlay"></div>
+
+
+        <div id="light_1" class="gene_info_window">
+            <button class="gene_info_window_x" style="float: right;">
+            <i>
+            <svg class="tool_icon" aria-hidden="true" onclick = "closeWin_1();">
+                <use xlink:href="#icon-cuowu"></use>
+            </svg>
+            </i>
+            </button>
+            <div class="gene_info_window_header">
+                <div class="gene_info_window_title">
+                    Gene Information
+                </div>
+            </div>
+                            {% for gene_info in gene_info %}
+            <div id="gene_info_window_body">
+                <div class="gene_info_window_body_title" style="margin-bottom:30px;">
+                    <div>
+                        <img style="float:left; width:40px; height:40px;" src="/static/CGIdb2/static/image/Searching_gene.gif">
+                        <div style="float:left; margin-left:16px;font-size:24px;font-weight: 700;">
+                            {{ gene_info.symbol }}
+                        </div>
+                    </div>
+                </div>
+
+                                <div style="background-color: #e8e8e8;height:45px;font-weight: 500;font-size: 16px;padding:10px;">
+                                Meta Information
+                                </div>
+
+                <table class="tablesorter table table-hover" style="border: 1px solid #e2e2e2;">
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Symbol
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.symbol }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Entrez ID
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.entrez_id }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Synonyms
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.Synonyms }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Type
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.type_of_gene }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Description
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            chromosome
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.chromosome }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Location
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.map_location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Position
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.GeneStartBp }} - {{ gene_info.GeneEndBp }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            HGNC ID
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.HGNCID }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            Ensembl Protein Family
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.EnseProtFami }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:25%;text-align: left;font-weight: 700;">
+                            UniProtKB/Swiss-Prot ID
+                        </td>
+                        <td style="text-align: left">
+                            {{ gene_info.UniProtKBSwissProtId }}
+                        </td>
+                    </tr>
+                </table>
+                {% endfor %}
+
+
+                        </div>
+        </div>
+        <div id="fade_1" class="black_overlay"></div>
+
+
+
+</div>
+
+</div>
+
+            <div id="gene_info_detail" class="svg_anno"></div>
+            <div id="pair_table_detail_click" class="svg_anno"></div>
+            <div id="table_detail_click" class="svg_anno"></div>
+            <div id="node_add" class="svg_anno"></div>
+            <div id="edge_add" class="svg_anno"></div>
+            <div id="savenetwork_1" class="svg_anno"></div>
+            <div id="hot_gene_1" class="svg_anno"></div>
+
+  <script>
+    $("tbody tr:even").addClass("even");
+    $("tbody tr:odd").addClass("odd");
+    $("tr:eq(0)").addClass("firsttr");
+</script>
+
+<script>
+    $('#main-body').css('height',document.body.clientHeight)
+</script>
+<script>
+$("#savenetwork").on('click',function () {
+   var mynetworkCanvas = document.getElementById("network_canvas");
+   console.log('mynetworkCanvas',mynetworkCanvas);
+   mynetworkCanvas.toBlob(function(blob) {
+       var a = document.createElement("a");
+       document.body.appendChild(a);
+       a.download = "Network" + ".png";
+       a.href = window.URL.createObjectURL(blob);
+       a.click();
+    });
+});
+</script>
+
+
+    <script>
+let Node_add_table = document.querySelector('#Node_add_table');
+        function node_add(){
+            if(Node_add_table.classList.contains('Node_add_table_off')) {
+                Node_add_table.classList.remove('Node_add_table_off');
+                $('#Node_add_table').css('display','none')
+            }else{
+                Node_add_table.classList.add('Node_add_table_off');
+                $('#Node_add_table').css('display','block')
+
+            }
+
+
+    };
+    function node_add_cancel(){
+        $('#Node_add_table').css('display','none')
+    }
+
+
+
+          // DOM element where the network will be attached
+          var container = document.getElementById('main');
+          var dsoptions = {
+                nodes:{
+                    shape: 'image',//采用图片的形式
+                    size: 15,
+                    font:{
+                        face:'Microsoft YaHei'
+                    },
+
+                },
+                // 设置关系连线
+                edges:{
+                    font:{
+                        face:'Microsoft YaHei',
+                        size:0
+                    },
+                    arrows: {
+                        to: {enabled: false},
+            },
+
+                },
+
+
+                //设置节点的相互作用
+                interaction: {
+                    //鼠标经过改变样式
+                    hover: true,
+                    //设置禁止缩放
+                    zoomView:true
+                },
+                //力导向图效果
+                physics: {
+                    enabled: true,
+                    barnesHut: {
+                        gravitationalConstant: -3500,
+                        centralGravity: 0.3,
+                        springLength: 120,
+                        springConstant: 0.04,
+                        damping: 0.09,
+                        avoidOverlap: 0
+                    }
+                },
+
+          };
+
+
+        var o_node=JSON.parse('{% autoescape off %}{{ node }}{% endautoescape %}')
+        var edges=JSON.parse('{% autoescape off %}{{ links }}{% endautoescape %}')
+        var nodes = new vis.DataSet(o_node);
+          var data = {
+              nodes: nodes,
+              edges: edges
+          };
+          var options = {};
+          var network = new vis.Network(container, data, dsoptions);
+</script>
+
+
+
+
+
+<script>
+          // here you init the addEdge mode
+        function edge_add(){
+                network.addEdgeMode();
+    };
+</script>
+
+
+
+
+<script>
+    function js_node_add(){
+        var node_add_id = $('#node-id').val();
+        var node_add_type = $('#node-type').val();
+        if(node_add_type==='SL'){
+            var node_add_img = '/static/CGIdb2/static/image/SL_gene.gif'
+        }else if(node_add_type==='SV'){
+            var node_add_img = '/static/CGIdb2/static/image/SV_gene.gif'
+        }else{
+            var node_add_img = '/static/CGIdb2/static/image/SL_SV_gene.gif'
+        };
+network.body.data.nodes.add([{id: node_add_id,label: node_add_id, image:node_add_img}]);
+        $('#Node_add_table').css('display','none')
+
+    };
+</script>
+
+
+<script>
+
+                    network.on("hoverEdge", function (e) {
+  this.body.data.edges.update({
+    id: e.edge,
+    font: {
+      size: 14,
+    },
+  });
+});
+
+network.on("blurEdge", function (e) {
+  this.body.data.edges.update({
+    id: e.edge,
+    font: {
+      size: 0,
+    },
+  });
+});
+    </script>
+
+
+
+
+
+<script>
+    var box = document.getElementById("box")
+    var toolbox = document.getElementById("tool_box")
+    height = window.getComputedStyle(box).height-window.getComputedStyle(toolbox).height
+    $('#table_detail').css('height',height)
+    $('#table_detail').css('background',"white")
+        function table_detail_click(){
+let table_detail = document.querySelector('.table_detail');
+
+            if(table_detail.classList.contains('table_detail_off')) {
+                table_detail.classList.remove('table_detail_off');
+                table_detail.classList.add('table_detail_on');
+                $('#table_detail').css('transform','translateY(0)');
+            }else{
+                table_detail.classList.add('table_detail_off');
+                table_detail.classList.remove('table_detail_on');
+                $('#table_detail').css('transform','translateY(-100%)');
+
+            }
+    }
+
+
+        function pair_table_detail_click(){
+let pair_table_detail = document.querySelector('.pair_table_detail');
+
+            if(pair_table_detail.classList.contains('pair_table_detail_on')) {
+                $('.network_results').css('width','100%')
+                $('.table_results').css('width','0')
+                $('.table_results').css('border','0')
+                pair_table_detail.classList.remove('pair_table_detail_on');
+                pair_table_detail.classList.add('pair_table_detail_off');
+                $('#pair_table_detail').css('transform','translateX(-100%)');
+            }else{
+                $('.network_results').css('width','65%')
+                $('.table_results').css('width','35%')
+                $('.table_results').css('border','1')
+                pair_table_detail.classList.add('pair_table_detail_on');
+                pair_table_detail.classList.remove('pair_table_detail_off');
+                $('#pair_table_detail').css('transform','translateX(0)');
+
+            }
+    }
+
+
+
+
+
+
+
+
+</script>
+
+<script>
+    var divObj = document.getElementsByTagName("canvas")[0]
+divObj.setAttribute("id","network_canvas")
+</script>
+
+
+        <script>
+            var o_values = JSON.parse('{% autoescape off %}{{ gene_heat_detail }}{% endautoescape %}')
+            var chart = echarts.init(document.getElementById('heat_gene_img_echarts'));
+
+            var option = {
+                tooltip: {},
+                series: [ {
+                    type: 'wordCloud',
+                    gridSize: 2,
+                    sizeRange: [12, 50],
+                    rotationRange: [-90, 90],
+                    shape: 'circle',
+                    width: 900,
+                    height: 600,
+                    drawOutOfBound: true,
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: o_values
+                } ]
+            };
+
+            chart.setOption(option);
+
+            window.onresize = chart.resize;
+        </script>
+
+
+
+<script>
+               function hot_gene_canvas(){
+let heat_gene_img = document.querySelector('.heat_gene_img');
+
+            if(heat_gene_img.classList.contains('heat_gene_img_off')) {
+                heat_gene_img.classList.remove('heat_gene_img_off');
+                heat_gene_img.classList.add('heat_gene_img_on');
+                $('#heat_gene_img').css('transform','translateY(0)');
+            }else{
+                heat_gene_img.classList.add('heat_gene_img_off');
+                heat_gene_img.classList.remove('heat_gene_img_on');
+                $('#heat_gene_img').css('transform','translateY(-100%)');
+
+            }
+    }
+
+
+</script>
+<script>
+          function loading()
+      {
+         $('#drug_effect_window_body').html("<img src='/static/GI/images/loading.gif'></img>");
+      }
+</script>
+
+<!--
+<script type="text/javascript">
+$(function(){
+ $(document).bind("click",function(e){
+  var target  = $(e.target);
+  if(target.closest(".drug_effect_window").length == 0){
+       $(".drug_effect_window").hide();
+  }
+ })
+})
+</script>
+
+<script type="text/javascript">
+$(document).mousedown(function(e){
+if($(e.target).parent("#light_1").length==0){
+$("#light_1").hide();
+$("#fade_1").hide();
+}
+})
+$(document).mousedown(function(e){})
+</script>
+-->
+  </body>
+
+
+</html>
+

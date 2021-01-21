@@ -1,0 +1,146 @@
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.0/echarts.min.js" integrity="sha512-ZRdjJAYP8Kij8Lkln9uiGj0jIrMDLAALm1ZB2b3VfV9XJ0nR4zbJmHKB42/A4tgMlZS4DTPnSAmcYRoS0dginA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/GI/js/dataTool.js"></script>
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/GI/css/bootstrap-theme.css"></link>
+
+	  <div class="row" style="height:500px;padding:24px;">
+	    <div class="col-md-12" style="height:100%;padding:0px;">
+       	      <div class="jumbotron" style="height: 100%; padding: 0; position: relative;">
+		{% if predicted_info != "" %}
+            {% if predicted_info.pvalue != '' %}
+	        <h2>Gene Alteration Distribution<small> in TCGA data</small></h2>
+		<div id="heatmap_container" style="width:100%; height:200px;">
+
+		</div>
+            		{% else %}
+		<div class="bs-callout bs-callout-danger" style="line-height: 300px;font-size: 25px;text-align: center;">
+		  This gene pair is not significant co-alteration in TCGA corhort.
+		</div>
+		{% endif %}
+		<div class="panel panel-success" style="padding-bottom: 0px; position: absolute; bottom: 0; margin: 0;width: 100%;">
+		  <div class="panel-heading"><span class="glyphicon glyphicon-info-sign"></span><strong> Statistics of Analysis Result: </strong></div>
+		  <div class="panel-body">
+		    <table class="table">
+		      <tr>
+			<th>Gene1 ID</th>
+			<th>Gene1 Symbol</th>	
+			<th>Gene2 ID</th>
+			<th>Gene2 Symbol</th>
+			<th class="informational">P-value of Co-alteration</th>
+			<th>P-value of Co-Expression</th>
+			<th>P-value of Co-Methylation</th>
+		      </tr>
+		      <tr style="font-size: 16px">
+			<td>{{ predicted_info.gene1_id }}</td>
+			<td>{{ predicted_info.gene1_symbol }}</td>
+			<td>{{ predicted_info.gene2_id }}</td>
+			<td>{{ predicted_info.gene2_symbol }}</td>
+            {% if predicted_info.pvalue != "" %}
+			<td>{{ predicted_info.pvalue}}</td>
+                  {% else %}
+                <td>NA</td>
+                {% endif %}
+            {% if predicted_info.exp_pvalue != "" %}
+			<td>{{ predicted_info.exp_pvalue}}</td>
+                  {% else %}
+                <td>NA</td>
+                {% endif %}
+            {% if predicted_info.meth_pvalue != "" %}
+			<td>{{ predicted_info.meth_pvalue}}</td>
+                  {% else %}
+                <td>NA</td>
+                {% endif %}
+		      </tr>
+		    </table>
+		  </div>
+		</div>	
+		{% else %}
+		<div class="bs-callout bs-callout-danger">
+		  <h4>No Result</h4>
+		  This gene pair is not significant co-alteration in TCGA corhort.
+		</div>
+		{% endif %}
+  	      </div>
+ 	    </div>
+	  </div>
+
+<script>
+{% if predicted_info != "" %}
+var myChart = echarts.init(document.getElementById('heatmap_container'));
+
+var genes = ['{{ predicted_info.gene1_symbol }}', '{{ predicted_info.gene2_symbol }}'];
+var cancer_samples = JSON.parse('{% autoescape off %}{{ cancer_samples }}{% endautoescape %}')
+
+
+var option = {
+    tooltip: {
+        position: 'top',
+    },
+    animation: true,
+    grid: {
+        height: '50%',
+        y: '10p%'
+    },
+    xAxis: {
+        type: 'category',
+        data: cancer_samples,
+        splitArea: {
+            show: true
+        }
+    },
+    yAxis: {
+        type: 'category',
+        data: genes,
+        splitArea: {
+            show: true
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 3,
+        splitNumber: 3,
+        pieces: [{value: "1", label: "mutation"},{value: "2", label: "amplification"},{value: "3", label: "deletion"}],
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: '5%',
+        type: 'piecewise',
+	inRange:{
+	  color: ["#56A36C","#B31800","#2E68AA"]
+	},
+    },
+    series: [{
+        name: 'Alteration type',
+        type: 'heatmap',
+        data: JSON.parse('{% autoescape off %}{{ gene_samples }}{% endautoescape %}'),
+        label: {
+            normal: {
+                show: false
+            }
+        },
+	tooltip: {
+          formatter: function (params, ticket, callback) {
+  	    var dict = ["None","Mutation", "Amplication", "Deletion"]
+	    return "Sample: "+params.name+"<br/>"+"Alteration: "+dict[Number(params.value[2])];
+	  },
+	},
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 1,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+
+};
+myChart.setOption(option);
+{% endif %}
+
+
+
+</script>
